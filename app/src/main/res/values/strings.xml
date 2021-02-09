@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu">menu</string>
+    <string name="notification">notification</string>
+    <string name="giza_egypt">Giza, Egypt</string>
+    <string name="monday">monday</string>
+    <string name="_17_c">17 C</string>
+    <string name="temp">imgTemp</string>
+    <string name="imghumidity">imgHumidity</string>
+    <string name="humidity">Humidity</string>
+    <string name="_65">65%</string>
+    <string name="cloudy">cloudy</string>
+    <string name="speed_wind">Wind speed</string>
+    <string name="_36_2_km_h">36.2 km/h</string>
+    <string name="pressure">Pressure</string>
+    <string name="_1_130_mbar">1.130 mBar</string>
+</resources>
