@@ -21,7 +21,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="@{viewModelCurrent.timezone}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="@string/cloudy"
+                android:text="@{viewModelCurrent.current.weather.get(0).description}"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="@string/_17_c"
                 android:textColor="@color/white"
                 android:textSize="40sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +129,7 @@
                         android:layout_below="@+id/txtVw_humidity"
                         android:layout_centerInParent="true"
                         android:layout_margin="4dp"
-                        android:text="@string/_65"
+                        android:text="@{String.valueOf(viewModelCurrent.current.humidity)}"
                         android:textColor="@color/white" />
 
                 </RelativeLayout>
@@ -177,7 +175,7 @@
                         android:layout_below="@+id/txtVw_pressure"
                         android:layout_centerInParent="true"
                         android:layout_margin="4dp"
-                        android:text="@string/_1_130_mbar"
+                        android:text="@{String.valueOf(viewModelCurrent.current.pressure)}"
                         android:textColor="@color/white" />
 
                 </RelativeLayout>
@@ -221,8 +219,8 @@
                         android:layout_below="@+id/txtVw_speed"
                         android:layout_centerInParent="true"
                         android:layout_margin="4dp"
-                        android:text="@string/_36_2_km_h"
-                        android:textColor="@color/blue_light" />
+                        android:text="@{String.valueOf(viewModelCurrent.current.wind_speed)}"
+                        android:textColor="@color/white" />
 
                 </RelativeLayout>
 

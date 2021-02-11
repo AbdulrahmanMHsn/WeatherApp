@@ -82,4 +82,7 @@ dependencies {
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+
+    // Drawer Layout
+    implementation 'com.infideap.drawerbehavior:drawer-behavior:1.0.4'
 }

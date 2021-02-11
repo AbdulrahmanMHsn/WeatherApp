@@ -2,6 +2,7 @@ package amhsn.weatherapp.viewmodel
 
 import amhsn.weatherapp.network.response.ResponseAPIWeather
 import amhsn.weatherapp.repo.WeatherRepo
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,8 +18,8 @@ class WeatherViewModel : ViewModel() {
     private var movieRepo: WeatherRepo = WeatherRepo()
     lateinit var weather: LiveData<List<ResponseAPIWeather>>
 
-    fun getRemoteDataSource(lat: Double, lon: Double): MutableLiveData<ResponseAPIWeather> {
-        return movieRepo.fetchRemoteDataSource(lat,lon)
+    fun getRemoteDataSource(lat: Double, lon: Double,context: Context): MutableLiveData<ResponseAPIWeather> {
+        return movieRepo.fetchRemoteDataSource(lat,lon,context)
     }
 
     companion object {

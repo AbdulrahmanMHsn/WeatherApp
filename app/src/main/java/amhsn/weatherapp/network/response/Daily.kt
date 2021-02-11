@@ -18,6 +18,6 @@ data class Daily (
 	@SerializedName("wind_deg") val wind_deg : Int,
 	@SerializedName("weather") val weather : List<Weather>,
 	@SerializedName("clouds") val clouds : Int,
-	@SerializedName("pop") val pop : Int,
+	@SerializedName("pop") val pop : Double,
 	@SerializedName("uvi") val uvi : Double
 )

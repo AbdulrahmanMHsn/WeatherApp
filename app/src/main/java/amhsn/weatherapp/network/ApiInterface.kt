@@ -11,7 +11,8 @@ interface ApiInterface {
     @GET("data/2.5/onecall")
     fun getWeather(@Query("lat") lat: Double
                   , @Query("lon") lon: Double
-//                  , @Query("exclude") exclude: String
+                  , @Query("exclude") exclude: String = "minutely"
+                  , @Query("units") units: String = "metric"
                   , @Query("appid") appid: String): Call<ResponseAPIWeather>
 
 }

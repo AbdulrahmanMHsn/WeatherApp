@@ -2,71 +2,95 @@ package amhsn.weatherapp.adapter
 
 import amhsn.weatherapp.R
 import amhsn.weatherapp.databinding.ItemHourlyBinding
-import android.util.Log
+import amhsn.weatherapp.network.response.Daily
+import amhsn.weatherapp.network.response.Hourly
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.MovieHolder>() {
 
-    private var arrayList: List<String> = ArrayList()
+    private var arrayList: List<Hourly> = ArrayList()
     private lateinit var bindingAdapter: ItemHourlyBinding
+    private var currentCalendar = Calendar.getInstance()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
-        Log.i("adapter", "onBindViewHolder: ssss")
-
-        bindingAdapter = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_hourly, parent, false);
+        bindingAdapter = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.item_hourly,
+            parent,
+            false
+        )
 
         return MovieHolder(
             bindingAdapter
         )
     }
 
+
     override fun getItemCount(): Int {
-        return arrayList.size
+        return if (!arrayList.isEmpty()) {
+            arrayList.size
+        } else {
+            0
+        }
     }
 
+
+    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
-        Log.i("adapter", "onBindViewHolder: asdsadsadsa")
-        if (arrayList.isEmpty()) {
-            Log.i("adapter", "onBindViewHolder: ssss")
-            return;
+
+        if (arrayList.isEmpty()) return
+
+        val item = arrayList.get(position)
+//
+        val path = "http://openweathermap.org/img/w/${item.weather.get(0).icon}.png"
+
+
+//
+        holder.binding.hourlyImgIconWeather.let {
+            Glide.with(it)
+                .load(path)
+                .into(it)
         }
 
-//        var path:String = "https://image.tmdb.org/t/p/w500" + arrayList.get(position).backdrop_path;
-//
-//        Log.i("adapter", "onBindViewHolder: sssssssssssssssssssssss")
-//        holder.photo?.let {
-//            Glide.with(it)
-//                .load(path)
-//                .into(it)
-//        }
-//
-//        holder.title!!.setText(arrayList.get(position).title)
-//
-//        holder.layout.setOnClickListener{
-//
-//            var bundle: Bundle = Bundle();
-//            bundle.putString("PHOTO",path)
-//            bundle.putString("TITLE",arrayList.get(position).title)
-//
-//            Navigation.findNavController(it).navigate(R.id.action_listFragment_to_itemFragment,bundle)
-//
-//        }
+        if (currentCalendar.timeInMillis >= (item.dt).toLong() * 1000) {
+            holder.binding.hourlyTxtVwTime.text = "Now"
+        } else {
 
-        bindingAdapter.hourlyTxtVwTime.text = "Abdo"
+            val date = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date((item.dt).toLong() * 1000))
+
+            holder.binding.hourlyTxtVwTime.text = date
+        }
+
+        holder.binding.hourlyTxtVwTemp.text = item.temp.toString()
+        holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).description
+//        holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).id.toString()
 
     }
 
 
-    fun setList(movieList: List<String>){
-        arrayList = movieList
+    fun setList(list: List<Hourly>) {
+        arrayList = list
         notifyDataSetChanged()
     }
 
-    class MovieHolder(val binding: ItemHourlyBinding) : RecyclerView.ViewHolder(binding.root)
 
+
+    class MovieHolder(var binding: ItemHourlyBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+//    class MovieHolder(view: View) : RecyclerView.ViewHolder(view) {
+//
+//        val time = view.findViewById<TextView>(R.id.hourly_txtVw_time)
+//
+//    }
 
 }
