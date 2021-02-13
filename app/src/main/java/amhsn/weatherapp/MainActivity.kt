@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                         val homeFragment = Home()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.fragment, homeFragment).commit()
-                        supportActionBar!!.title = R.string.app_name.toString()
+                        supportActionBar!!.title = "WeatherApp"
                     }
                     R.id.nav_location -> {
                         val homeFragment = LocationFragment()

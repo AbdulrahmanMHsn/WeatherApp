@@ -43,4 +43,7 @@
     <string name="language">Languages</string>
     <string name="Arabic">Arabic</string>
     <string name="english">English</string>
+    <string name="last_update">Last Update : </string>
+    <string name="enable_location_service">Enable Location Service</string>
+    <string name="location_service">Location Service</string>
 </resources>

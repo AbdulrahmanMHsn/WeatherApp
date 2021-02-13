@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModelCurrent"
             type="amhsn.weatherapp.network.response.ResponseAPIWeather" />
@@ -16,16 +17,32 @@
             android:background="@color/blue_dark">
 
             <TextView
+                android:id="@+id/txtVw_lastUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="serif"
+                android:gravity="end"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/txtVw_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:fontFamily="serif"
                 android:gravity="center"
+                android:text="Dokki"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/txtVw_lastUpdate" />
 
             <!--            <TextView-->
             <!--                android:id="@+id/txtVw_date"-->
@@ -42,14 +59,14 @@
 
 
             <TextView
-                android:id="@+id/txtVw_desc"
+                android:id="@+id/txtVw_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="@{viewModelCurrent.current.weather.get(0).description}"
+                android:text="Fri 12 February 12:23 am"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtVw_city" />
@@ -57,38 +74,89 @@
 
             <TextView
                 android:id="@+id/txtVw_temp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:fontFamily="sans-serif-thin"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="40sp"
+                android:textSize="75sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtVw_desc" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/img_weatherIcon"
+                app:layout_constraintTop_toBottomOf="@id/txtVw_date" />
 
             <ImageView
                 android:id="@+id/img_weatherIcon"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="28dp"
                 android:contentDescription="@string/temp"
                 android:gravity="center"
-                android:src="@{viewModelCurrent.current.weather.get(0).icon}"
+                android:src="@drawable/ic_cloudy"
+
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.35"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtVw_date" />
+
+            <TextView
+                android:id="@+id/txtVw_tempMinMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunito_light"
+                android:gravity="center"
+                android:text="25\u00b0/12\u00b0"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.38"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtVw_temp" />
 
+            <TextView
+                android:id="@+id/txtVw_tempFeels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunito_light"
+                android:gravity="center"
+                android:text="Feels like12\u00b0"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toEndOf="@+id/txtVw_tempMinMax"
+                app:layout_constraintTop_toBottomOf="@id/txtVw_temp" />
+
+            <TextView
+                android:id="@+id/txtVw_desc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Cloudy"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtVw_tempFeels" />
+
+            <!--            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"-->
 
             <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_weatherIcon">
+                app:layout_constraintTop_toBottomOf="@+id/txtVw_desc">
 
                 <RelativeLayout
                     android:id="@+id/layout_humidity"
@@ -124,12 +192,12 @@
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/txtVw_ValueHumidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtVw_humidity"
                         android:layout_centerInParent="true"
                         android:layout_margin="4dp"
-                        android:text="@{String.valueOf(viewModelCurrent.current.humidity)}"
                         android:textColor="@color/white" />
 
                 </RelativeLayout>
@@ -170,12 +238,12 @@
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/txtVw_valuePressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtVw_pressure"
                         android:layout_centerInParent="true"
                         android:layout_margin="4dp"
-                        android:text="@{String.valueOf(viewModelCurrent.current.pressure)}"
                         android:textColor="@color/white" />
 
                 </RelativeLayout>
@@ -214,17 +282,26 @@
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/txtVw_valueSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtVw_speed"
                         android:layout_centerInParent="true"
                         android:layout_margin="4dp"
-                        android:text="@{String.valueOf(viewModelCurrent.current.wind_speed)}"
                         android:textColor="@color/white" />
 
                 </RelativeLayout>
 
+
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+               app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

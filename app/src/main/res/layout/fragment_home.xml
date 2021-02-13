@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:id="@+id/layout_home"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.home.Home">
+        android:layout_height="match_parent">
 
-        <!--        Center Layout-->
-        <include
-            android:id="@+id/center_home"
-            layout="@layout/snippet_center_home" />
+        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/layout_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".ui.home.Home">
+
+            <!--        Center Layout-->
+            <include
+                android:id="@+id/center_home"
+                layout="@layout/snippet_center_home" />
 
 
+            <include
+                android:id="@+id/bottom_home"
+                layout="@layout/snippet_bottom_home" />
 
-        <include layout="@layout/snippet_bottom_home"
-            android:id="@+id/bottom_home"/>
-
-    </LinearLayout>
-
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private fun getInstance(context:Context):Retrofit{
+    private fun getInstance(context: Context): Retrofit {
 
         val cacheSize = (5 * 1024 * 1024).toLong()
         val myCache = Cache(context.cacheDir, cacheSize)
@@ -23,7 +23,10 @@ object RetrofitClient {
                 request = if (hasNetwork(context)!!)
                     request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
                 else
-                    request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
+                    request.newBuilder().header(
+                        "Cache-Control",
+                        "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
+                    ).build()
                 chain.proceed(request)
             }
             .build()
@@ -35,13 +38,14 @@ object RetrofitClient {
             .build();
     }
 
-    fun getApiService(context: Context):ApiInterface{
+    fun getApiService(context: Context): ApiInterface {
         return getInstance(context).create(ApiInterface::class.java)
     }
 
     fun hasNetwork(context: Context): Boolean? {
         var isConnected: Boolean? = false // Initial Value
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         if (activeNetwork != null && activeNetwork.isConnected)
             isConnected = true

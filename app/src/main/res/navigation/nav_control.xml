@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_control"
-    app:startDestination="@id/home2">
+    app:startDestination="@id/locationServiceFragment">
     <fragment
         android:id="@+id/home2"
         android:name="amhsn.weatherapp.ui.home.Home"
@@ -18,4 +18,13 @@
         android:name="amhsn.weatherapp.ui.ui.location.LocationFragment"
         android:label="fragment_location"
         tools:layout="@layout/fragment_location" />
+    <fragment
+        android:id="@+id/locationServiceFragment"
+        android:name="amhsn.weatherapp.ui.ui.location.LocationServiceFragment"
+        android:label="fragment_location_service"
+        tools:layout="@layout/fragment_location_service" >
+        <action
+            android:id="@+id/action_locationServiceFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
 </navigation>

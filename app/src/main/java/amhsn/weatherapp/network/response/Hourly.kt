@@ -17,5 +17,5 @@ data class Hourly (
 	@SerializedName("wind_speed") val wind_speed : Double,
 	@SerializedName("wind_deg") val wind_deg : Int,
 	@SerializedName("weather") val weather : List<Weather>,
-	@SerializedName("pop") val pop : Int
+	@SerializedName("pop") val pop : Double
 )
