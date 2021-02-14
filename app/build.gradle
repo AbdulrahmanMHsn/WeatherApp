@@ -97,4 +97,6 @@ dependencies {
 
     // Drawer Layout
     implementation 'com.infideap.drawerbehavior:drawer-behavior:1.0.4'
+
+//    implementation 'io.paperdb:paperdb:2.7.1'
 }

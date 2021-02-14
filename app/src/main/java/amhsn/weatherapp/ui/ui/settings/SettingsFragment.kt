@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import amhsn.weatherapp.R
 import amhsn.weatherapp.databinding.FragmentSettingsBinding
+import amhsn.weatherapp.utils.LocaleHelper
 import amhsn.weatherapp.utils.PrefHelper
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -48,8 +49,12 @@ class SettingsFragment : Fragment() {
                 PrefHelper.setUnitTemp("default", requireContext())
             } else if (R.id.radioC == checkedId) {
                 PrefHelper.setUnitTemp("metric", requireContext())
+                LocaleHelper.onAttach(requireContext(),"en")
+                PrefHelper.setLocalLanguage("en",requireContext())
             } else if (R.id.radioF == checkedId) {
                 PrefHelper.setUnitTemp("imperial", requireContext())
+                LocaleHelper.onAttach(requireContext(),"ar")
+                PrefHelper.setLocalLanguage("ar",requireContext())
             }
         }
 
