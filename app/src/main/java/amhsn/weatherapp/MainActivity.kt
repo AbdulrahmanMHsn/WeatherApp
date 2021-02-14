@@ -2,6 +2,7 @@ package amhsn.weatherapp
 
 import amhsn.weatherapp.databinding.ActivityMainBinding
 import amhsn.weatherapp.ui.home.Home
+import amhsn.weatherapp.ui.ui.favourite.FavouriteFragment
 import amhsn.weatherapp.ui.ui.location.LocationFragment
 import amhsn.weatherapp.ui.ui.settings.SettingsFragment
 import android.annotation.SuppressLint
@@ -65,13 +66,19 @@ class MainActivity : AppCompatActivity() {
                             .replace(R.id.fragment, homeFragment).commit()
                         supportActionBar!!.title = "Settings"
                     }
+
+                    R.id.nav_favorite -> {
+                        val homeFragment = FavouriteFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment, homeFragment).commit()
+                        supportActionBar!!.hide()
+                    }
                 }
                 binding.drawerLayout.close()
                 true
             }
 
         }
-
 
     }
 
@@ -91,17 +98,17 @@ class MainActivity : AppCompatActivity() {
 //    }
 
 
-    override fun onRestart() {
-        super.onRestart()
-        isFirst = true
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        if (!isFirst)
-            binding.navViewNotification.getMenu().getItem(0).setChecked(true)
-    }
+//    override fun onRestart() {
+//        super.onRestart()
+//        isFirst = true
+//    }
+//
+//
+//    override fun onStart() {
+//        super.onStart()
+//        if (!isFirst)
+//            binding.navViewNotification.getMenu().getItem(0).setChecked(true)
+//    }
 
 
     override fun onBackPressed() {

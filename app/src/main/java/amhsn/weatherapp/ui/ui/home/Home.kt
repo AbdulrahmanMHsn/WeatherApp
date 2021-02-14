@@ -37,7 +37,10 @@ class Home : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
-        address = getCompleteAddress(PrefHelper.getLatitude(requireContext())!!.toDouble(), PrefHelper.getLongitude(requireContext())!!.toDouble())
+//        address = getCompleteAddress(
+//            PrefHelper.getLatitude(requireContext())!!.toDouble(),
+//            PrefHelper.getLongitude(requireContext())!!.toDouble()
+//        )
 
     }
 
@@ -58,11 +61,20 @@ class Home : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        Log.i("LocationTAG", "onActivityCreated: sadsa : "+PrefHelper.getLatitude(requireContext()) + "  "+PrefHelper.getLongitude(requireContext()))
+        Log.i(
+            "LocationTAG",
+            "onActivityCreated: sadsa : " + PrefHelper.getLatitude(requireContext()) + "  " + PrefHelper.getLongitude(
+                requireContext()
+            )
+        )
 //        binding.centerHome.txtVwCity.text = getCompleteAddress(PrefHelper.getLatitude(requireContext())!!.toDouble(), PrefHelper.getLongitude(requireContext())!!.toDouble())
 
         binding.swiperefresh.setColorSchemeResources(R.color.blue_dark);
         binding.swiperefresh.setOnRefreshListener {
+            address = getCompleteAddress(
+                PrefHelper.getLatitude(requireContext())!!.toDouble(),
+                PrefHelper.getLongitude(requireContext())!!.toDouble()
+            )
             getRemoteDataSource()
 
             // lastUpdate
@@ -94,24 +106,30 @@ class Home : Fragment() {
 
     @SuppressLint("SetTextI18n")
     fun getRemoteDataSource() {
-        Toast.makeText(requireContext(),"sadsa "+PrefHelper.getLatitude(requireContext())!!.toDouble(),Toast.LENGTH_SHORT).show()
-        viewModel.getRemoteDataSource(PrefHelper.getLatitude(requireContext())!!.toDouble(), PrefHelper.getLongitude(requireContext())!!.toDouble(), requireContext())
-            .observe(requireActivity(), Observer {
-//                binding.centerHome.viewModelCurrent = it
-//
-//Toast.makeText(requireContext(),"sadsa",Toast.LENGTH_SHORT).show()
-                val pathImg = "http://openweathermap.org/img/wn/${it.current.weather.get(0).icon}.png"
-//
 
+        viewModel.getRemoteDataSource(
+            PrefHelper.getLatitude(requireContext())!!.toDouble(),
+            PrefHelper.getLongitude(requireContext())!!.toDouble(),
+            requireContext()
+        ).observe(requireActivity(), Observer {
 
+                val pathImg =
+                    "http://openweathermap.org/img/wn/${it.current.weather.get(0).icon}.png"
+
+                val date = SimpleDateFormat(
+                    "E dd MMM yyyy hh:mm a",
+                    Locale.ENGLISH
+                ).format(Date((it.current.dt).toLong() * 1000))
+
+                binding.centerHome.txtVwDate.text = date
                 binding.centerHome.txtVwDesc.text = it.current.weather.get(0).description
                 binding.centerHome.txtVwValueHumidity.text = it.current.humidity.toString() + " %"
                 binding.centerHome.txtVwValuePressure.text = it.current.pressure.toString() + " hPa"
                 binding.centerHome.txtVwValueSpeed.text = it.current.humidity.toString() + " m/s"
 
+
                 binding.centerHome.txtVwTemp.text =
                     round(it.current.temp).toInt().toString() + "\u00b0"
-
 
 
                 binding.centerHome.imgWeatherIcon.let {
@@ -131,18 +149,10 @@ class Home : Fragment() {
         val addresses: List<Address>
         geocoder = Geocoder(context, Locale.getDefault())
 
-        addresses = geocoder.getFromLocation(
-            lat,
-            lon,
-            1
-        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-
-//        val address: String = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+        addresses = geocoder.getFromLocation(lat, lon, 1)
 
         val city: String = addresses[0].getLocality()
         val state: String = addresses[0].getAdminArea()
-//        val country: String = addresses[0].getCountryName()
 
         val splitState = state.split(" ")
         val newState = splitState[0]
@@ -152,21 +162,19 @@ class Home : Fragment() {
         return result
     }
 
+
     fun showDialog() {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.layout_location_service)
-//        val text = dialog.findViewById(R.id.text_dialog) as TextView
-//        text.text = msg
-//        val dialogButton: Button = dialog.findViewById(R.id.btn_dialog) as Button
-//        dialogButton.setOnClickListener(View.OnClickListener { dialog.dismiss() })
         dialog.show()
     }
 
+
     override fun onStart() {
         super.onStart()
-        (activity as AppCompatActivity?)!!.getSupportActionBar()!!.title = address
+//        (activity as AppCompatActivity?)!!.getSupportActionBar()!!.title = address
 
     }
 

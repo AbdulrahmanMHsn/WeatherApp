@@ -3,21 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_control"
-    app:startDestination="@id/locationServiceFragment">
+    app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/home2"
         android:name="amhsn.weatherapp.ui.home.Home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_home2_to_locationFragment"
-            app:destination="@id/locationFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/locationFragment"
-        android:name="amhsn.weatherapp.ui.ui.location.LocationFragment"
-        android:label="fragment_location"
-        tools:layout="@layout/fragment_location" />
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/locationServiceFragment"
         android:name="amhsn.weatherapp.ui.ui.location.LocationServiceFragment"
@@ -25,6 +16,36 @@
         tools:layout="@layout/fragment_location_service" >
         <action
             android:id="@+id/action_locationServiceFragment_to_home2"
+            app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_locationServiceFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="amhsn.weatherapp.ui.ui.location.MapFragment"
+        android:label="MapFragment" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="amhsn.weatherapp.ui.ui.favourite.FavouriteFragment"
+        android:label="FavouriteFragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="amhsn.weatherapp.ui.ui.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_locationServiceFragment"
+            app:destination="@id/locationServiceFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_home2"
             app:destination="@id/home2" />
     </fragment>
 </navigation>

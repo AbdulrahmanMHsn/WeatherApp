@@ -1,15 +1,12 @@
 package amhsn.weatherapp.viewmodel
 
 import amhsn.weatherapp.network.response.ResponseAPIWeather
+import amhsn.weatherapp.network.response.Weather
 import amhsn.weatherapp.repo.WeatherRepo
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.network.RetrofitClient
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

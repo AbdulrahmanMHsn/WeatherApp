@@ -23,6 +23,7 @@ class LocationServiceFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LocationHelper.init(requireContext())
+
     }
 
     override fun onCreateView(
@@ -32,7 +33,9 @@ class LocationServiceFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_location_service, container, false)
-
+        if(PrefHelper.getLatitude(requireContext()) != 0.0){
+            Navigation.findNavController(container!!.rootView).navigate(R.id.action_locationServiceFragment_to_home2)
+        }
         return binding.root
     }
 
@@ -44,7 +47,7 @@ class LocationServiceFragment : Fragment() {
             LocationHelper.getLocation()
             Log.i("latitude", "onActivityCreated: "+PrefHelper.getLatitude(requireContext()))
 //            if(PrefHelper.setLatLng(location.latitude,location.longitude,requireContext())){
-                Navigation.findNavController(it).navigate(R.id.action_locationServiceFragment_to_home2)
+                Navigation.findNavController(it).navigate(R.id.action_locationServiceFragment_to_mapFragment)
 //            }else{
 //                Toast.makeText(context,"Not found location",Toast.LENGTH_SHORT).show()
 //            }
