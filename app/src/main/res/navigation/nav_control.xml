@@ -5,47 +5,73 @@
     android:id="@+id/nav_control"
     app:startDestination="@id/splashFragment">
     <fragment
-        android:id="@+id/home2"
+        android:id="@+id/home"
         android:name="amhsn.weatherapp.ui.home.Home"
-        android:label="fragment_home"
+        android:label="@string/home"
         tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/locationServiceFragment"
         android:name="amhsn.weatherapp.ui.ui.location.LocationServiceFragment"
-        android:label="fragment_location_service"
-        tools:layout="@layout/fragment_location_service" >
+        android:label="@string/location_service"
+        tools:layout="@layout/fragment_location_service">
         <action
-            android:id="@+id/action_locationServiceFragment_to_home2"
-            app:destination="@id/home2" />
+            android:id="@+id/locationService_to_home"
+            app:destination="@id/home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="amhsn.weatherapp.ui.ui.favourite.FavouriteFragment"
+        android:label="@string/favorite">
         <action
-            android:id="@+id/action_locationServiceFragment_to_mapFragment"
+            android:id="@+id/action_favouriteFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_favouriteDetailsFragment"
+            app:destination="@id/favouriteDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="amhsn.weatherapp.ui.ui.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/splash_to_locationService"
+            app:destination="@id/locationServiceFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_home2"
+            app:destination="@id/home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="amhsn.weatherapp.ui.ui.settings.SettingsFragment"
+        android:label="@string/settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_home"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="amhsn.weatherapp.ui.ui.location.MapFragment"
         android:label="MapFragment" />
     <fragment
-        android:id="@+id/favouriteFragment"
-        android:name="amhsn.weatherapp.ui.ui.favourite.FavouriteFragment"
-        android:label="FavouriteFragment" >
+        android:id="@+id/favouriteDetailsFragment"
+        android:name="amhsn.weatherapp.ui.ui.favourite.FavouriteDetailsFragment"
+        android:label="FavouriteDetailsFragment" />
+    <fragment
+        android:id="@+id/alarmsFragment"
+        android:name="amhsn.weatherapp.ui.ui.alarts.AlarmsFragment"
+        android:label="@string/alarms"
+        tools:layout="@layout/fragment_alarms" >
         <action
-            android:id="@+id/action_favouriteFragment_to_mapFragment"
-            app:destination="@id/mapFragment" />
-        <action
-            android:id="@+id/action_favouriteFragment_to_home2"
-            app:destination="@id/home2" />
+            android:id="@+id/action_alarmsFragment_to_addAlarmFragment"
+            app:destination="@id/addAlarmFragment" />
     </fragment>
     <fragment
-        android:id="@+id/splashFragment"
-        android:name="amhsn.weatherapp.ui.ui.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
-        <action
-            android:id="@+id/action_splashFragment_to_locationServiceFragment"
-            app:destination="@id/locationServiceFragment" />
-        <action
-            android:id="@+id/action_splashFragment_to_home2"
-            app:destination="@id/home2" />
-    </fragment>
+        android:id="@+id/addAlarmFragment"
+        android:name="amhsn.weatherapp.ui.ui.alarts.AddAlarmFragment"
+        android:label="AddAlarmFragment" />
 </navigation>

@@ -71,6 +71,7 @@
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <LinearLayout
+
                 android:id="@+id/layout_getCustomLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -244,51 +245,51 @@
 
 
 
-            <TextView
-                android:id="@+id/txt_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/units_of_wind"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.067"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_temp" />
+<!--            <TextView-->
+<!--                android:id="@+id/txt_wind"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="32dp"-->
+<!--                android:text="@string/units_of_wind"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="14sp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.067"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/txt_temp" />-->
 
 
-            <RadioGroup
-                android:id="@+id/radioGroup2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.885"
-                app:layout_constraintStart_toEndOf="@+id/txt_wind"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroupUint">
+<!--            <RadioGroup-->
+<!--                android:id="@+id/radioGroup2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.885"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/txt_wind"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/radioGroupUint">-->
 
-                <RadioButton
-                    android:id="@+id/radioM"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:checked="false"
-                    android:text="@string/m_s"
-                    android:textSize="14sp" />
+<!--                <RadioButton-->
+<!--                    android:id="@+id/radioM"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:checked="false"-->
+<!--                    android:text="@string/m_s"-->
+<!--                    android:textSize="14sp" />-->
 
-                <RadioButton
-                    android:id="@+id/radioKm"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:checked="false"
-                    android:text="@string/km_h"
-                    android:textSize="14sp" />
+<!--                <RadioButton-->
+<!--                    android:id="@+id/radioKm"-->
+<!--                    android:layout_width="fill_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:checked="false"-->
+<!--                    android:text="@string/km_h"-->
+<!--                    android:textSize="14sp" />-->
 
-            </RadioGroup>
+<!--            </RadioGroup>-->
 
             <View
                 android:id="@+id/view3"
@@ -298,7 +299,7 @@
                 android:background="#DDD6D6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+                app:layout_constraintTop_toBottomOf="@+id/radioGroupUint" />
 
 
             <TextView
@@ -332,7 +333,7 @@
 
 
             <RadioGroup
-                android:id="@+id/radioGroup3"
+                android:id="@+id/radioGroupLang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
@@ -344,7 +345,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/view3">
 
                 <RadioButton
-                    android:id="@+id/radio"
+                    android:id="@+id/radioAr"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -353,7 +354,7 @@
                     android:textSize="14sp" />
 
                 <RadioButton
-                    android:id="@+id/radios"
+                    android:id="@+id/radioEn"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"

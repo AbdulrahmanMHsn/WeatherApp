@@ -48,5 +48,10 @@
     <string name="location_service">Location Service</string>
     <string name="today">Today</string>
     <string name="next_days">Next 6 days</string>
+    <string name="loading">Loading</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="add_alarm">add alarm</string>
+    <string name="alarms">Alarms</string>
+    <string name="Reminder">Reminder</string>
 
 </resources>

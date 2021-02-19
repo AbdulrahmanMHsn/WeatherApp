@@ -6,8 +6,10 @@ import amhsn.weatherapp.network.response.Daily
 import amhsn.weatherapp.network.response.Hourly
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
@@ -19,9 +21,11 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.MovieHolder>() {
     private var arrayList: List<Hourly> = ArrayList()
     private lateinit var bindingAdapter: ItemHourlyBinding
     private var currentCalendar = Calendar.getInstance()
+    private lateinit var view: View
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
+        view = parent
         bindingAdapter = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.item_hourly,
@@ -72,7 +76,9 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.MovieHolder>() {
 
         holder.binding.hourlyTxtVwTemp.text = item.temp.toString()
         holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).description
-//        holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).id.toString()
+
+
+
 
     }
 

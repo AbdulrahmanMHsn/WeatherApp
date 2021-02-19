@@ -1,26 +1,22 @@
 package amhsn.weatherapp.ui.ui.settings
 
+import amhsn.weatherapp.MainActivity
+import amhsn.weatherapp.R
+import amhsn.weatherapp.databinding.FragmentSettingsBinding
+import amhsn.weatherapp.ui.ui.local.ContextWrapper.Companion.setLocale
+import amhsn.weatherapp.utils.PrefHelper
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import amhsn.weatherapp.R
-import amhsn.weatherapp.databinding.FragmentSettingsBinding
-import amhsn.weatherapp.utils.LocaleHelper
-import amhsn.weatherapp.utils.PrefHelper
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 
 
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
-    private var intSelectButton: Int = -1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +29,7 @@ class SettingsFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,25 +37,42 @@ class SettingsFragment : Fragment() {
             binding.radioGroupUint.check(R.id.radioK)
         } else if (PrefHelper.getUnitTemp(requireContext()).equals("metric")) {
             binding.radioGroupUint.check(R.id.radioC)
-        }else if (PrefHelper.getUnitTemp(requireContext()).equals("imperial")) {
+        } else if (PrefHelper.getUnitTemp(requireContext()).equals("imperial")) {
             binding.radioGroupUint.check(R.id.radioF)
         }
 
+
+        if (PrefHelper.getLocalLanguage(requireContext()).equals("en")) {
+            binding.radioGroupLang.check(R.id.radioEn)
+        } else if (PrefHelper.getLocalLanguage(requireContext()).equals("ar")) {
+            binding.radioGroupLang.check(R.id.radioAr)
+        }
+
+
         binding.radioGroupUint.setOnCheckedChangeListener { group, checkedId ->
-            if (R.id.radioK == checkedId) {
+            if(R.id.radioK == checkedId){
                 PrefHelper.setUnitTemp("default", requireContext())
             } else if (R.id.radioC == checkedId) {
                 PrefHelper.setUnitTemp("metric", requireContext())
-                LocaleHelper.onAttach(requireContext(),"en")
-                PrefHelper.setLocalLanguage("en",requireContext())
             } else if (R.id.radioF == checkedId) {
                 PrefHelper.setUnitTemp("imperial", requireContext())
-                LocaleHelper.onAttach(requireContext(),"ar")
-                PrefHelper.setLocalLanguage("ar",requireContext())
+            }
+        }
+
+        binding.radioGroupLang.setOnCheckedChangeListener { group, checkedId ->
+            if (R.id.radioAr == checkedId) {
+                PrefHelper.setLocalLanguage("ar", requireContext())
+                activity?.let { it1 -> setLocale(it1,"ar") }
+                startActivity(Intent(requireContext(),MainActivity::class.java))
+            } else {
+                PrefHelper.setLocalLanguage("en", requireContext())
+                activity?.let { it1 -> setLocale(it1,"en") }
+                startActivity(Intent(requireContext(),MainActivity::class.java))
             }
         }
 
     }
+
 
 
 }

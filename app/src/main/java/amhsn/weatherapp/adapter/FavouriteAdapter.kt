@@ -4,28 +4,28 @@ import amhsn.weatherapp.R
 import amhsn.weatherapp.databinding.ItemFavouriteBinding
 import amhsn.weatherapp.pojo.Favourite
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 
-class FavouriteAdapter : RecyclerView.Adapter<FavouriteAdapter.FavouriteHolder>() {
+class FavouriteAdapter(var listener: OnItemClickListener) :
+    RecyclerView.Adapter<FavouriteAdapter.FavouriteHolder>() {
 
     private var arrayList: List<Favourite> = ArrayList()
     private lateinit var bindingAdapter: ItemFavouriteBinding
-    private lateinit var mListener: OnItemClickListener
-
+    private lateinit var view: View
+    private var mListener: OnItemClickListener = listener
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
-//        fun onItemChecked(position: Int)
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener?) {
-        mListener = listener!!
+        fun onItemDeleteClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteHolder {
+
         bindingAdapter = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.item_favourite,
@@ -33,8 +33,9 @@ class FavouriteAdapter : RecyclerView.Adapter<FavouriteAdapter.FavouriteHolder>(
             false
         )
 
+        view = parent
         return FavouriteHolder(
-            bindingAdapter,mListener
+            bindingAdapter
         )
     }
 
@@ -54,30 +55,25 @@ class FavouriteAdapter : RecyclerView.Adapter<FavouriteAdapter.FavouriteHolder>(
         if (arrayList.isEmpty()) return
 
         val item = arrayList.get(position)
-//
-//        holder.binding.itemFavTxtVwCity.setOnClickListener {
-////            Toast.makeText(it, "${position}", Toast.LENGTH_SHORT).show()
-//            Log.i("makeText", "onBindViewHolder: "+position)
-////            Navigation.findNavController(it).navigate(R.id.action_favouriteFragment_to_mapFragment)
-//
-//        }
 
-//        holder.binding.itemFavTxtVwCity.setOnClickListener({ view ->
-//            if (mListener != null) {
-//                val position: Int = holder.getAdapterPosition()
-//                if (position != RecyclerView.NO_POSITION) {
-//                    mListener.onItemClick(position)
-//                }
-//            }
-//        })
+        holder.itemBinding.itemFavTxtVwCity.text = item.city
+        holder.itemBinding.itemFavTxtVwCountry.text = item.country
 
-//        holder.binding.itemFavTxtVwCity.setOnClickListener({ view ->
-//            if (mListener != null) {
-//                if (position != RecyclerView.NO_POSITION) {
-//                    mListener!!.onItemClick(position)
-//                }
-//            }
-//        })
+        holder.itemBinding.layoutItemFav.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putDouble("lat", item.lat)
+            bundle.putDouble("lon", item.lon)
+            findNavController(it).navigate(
+                R.id.action_favouriteFragment_to_favouriteDetailsFragment,
+                bundle
+            )
+        }
+
+        holder.itemBinding.imageDelete.setOnClickListener {
+            if (position != RecyclerView.NO_POSITION) {
+                mListener.onItemDeleteClick(position)
+            }
+        }
 
     }
 
@@ -87,8 +83,13 @@ class FavouriteAdapter : RecyclerView.Adapter<FavouriteAdapter.FavouriteHolder>(
         notifyDataSetChanged()
     }
 
+    fun getFavouriteAtPosition(position: Int): Favourite? {
+        return arrayList.get(position)
+    }
 
-    class FavouriteHolder(var binding: ItemFavouriteBinding,var listener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root)
+
+    class FavouriteHolder(var itemBinding: ItemFavouriteBinding) :
+        RecyclerView.ViewHolder(itemBinding.root)
 
 
 }

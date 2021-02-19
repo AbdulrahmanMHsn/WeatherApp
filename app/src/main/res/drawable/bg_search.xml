@@ -7,10 +7,9 @@
                 android:startColor="@color/blue_dark"
                 android:endColor="@color/blue_dark"/>
 
-            <corners
-                android:topRightRadius="8dp"
-                android:bottomRightRadius="8dp"
-                />
+<!--            <corners-->
+<!--                android:radius="8dp"-->
+<!--                />-->
 
         </shape>
     </item>

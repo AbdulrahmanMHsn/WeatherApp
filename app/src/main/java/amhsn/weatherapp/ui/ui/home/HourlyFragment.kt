@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import amhsn.weatherapp.R
 import amhsn.weatherapp.adapter.HourlyAdapter
 import amhsn.weatherapp.databinding.FragmentHourlyBinding
+import amhsn.weatherapp.network.response.Hourly
 import amhsn.weatherapp.viewmodel.WeatherViewModel
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
-class HourlyFragment : Fragment() {
+class HourlyFragment() : Fragment() {
 
     private lateinit var binding: FragmentHourlyBinding
     private lateinit var adapter: HourlyAdapter
@@ -47,6 +48,7 @@ class HourlyFragment : Fragment() {
         initRecyclerView()
 
 
+
 //        val list: List<String> = mutableListOf(
 //            "asdas",
 //            "asdsa",
@@ -71,6 +73,7 @@ class HourlyFragment : Fragment() {
         binding.hourlyContainer.itemAnimator = DefaultItemAnimator()
         adapter = HourlyAdapter()
         binding.hourlyContainer.adapter = adapter
+//        adapter.setList(list)
     }
 
     fun getRemoteDataSource() {

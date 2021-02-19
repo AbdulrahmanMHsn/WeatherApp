@@ -21,12 +21,12 @@
     <string name="home">الرئيسية</string>
     <string name="location">الموقع</string>
     <string name="favorite">المفضلة</string>
-    <string name="settings">الاعددات</string>
+    <string name="settings">الاعدادات</string>
     <string name="share">Share</string>
     <string name="communicate">Communicate</string>
     <string name="about_us">About us</string>
     <string name="todo">todo</string>
-    <string name="add_new_location">Add new location</string>
+    <string name="add_new_location">اضافة موقع جديد</string>
     <string name="units">الوحدات</string>
     <string name="weather_location">موقع الطقس </string>
     <string name="used_device_location">استخدم موقع الجهاز</string>
@@ -45,7 +45,11 @@
     <string name="english">اللغة الانجليزية</string>
     <string name="last_update">اخر تحديث</string>
     <string name="enable_location_service">تفغيل خدمة الموقع </string>
-    <string name="location_service">Location Service</string>
+    <string name="location_service">خدمة الموقع</string>
     <string name="today">اليوم</string>
     <string name="next_days">الستة أيام القادمة </string>
+    <string name="loading">برجاء الانتظار</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="add_alarm">add alarm</string>
+    <string name="alarms">Alarms</string>
 </resources>

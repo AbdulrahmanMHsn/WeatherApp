@@ -6,11 +6,9 @@ import amhsn.weatherapp.utils.LocationHelper
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -65,7 +63,6 @@ class LocationFragment : Fragment() {
 
     private fun getLocation() {
 
-
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_REQUEST_CODE)
             return
@@ -75,11 +72,6 @@ class LocationFragment : Fragment() {
                 for (location in locationResult.locations) {
                     if (location != null) {
                         isWorkedLocationCallback = true
-                        Log.i(
-                            "TAGTAGTAGTAG",
-                            "onLocationResult: " + location.latitude + "   " + location.latitude
-                        )
-
                     }
                 }
             }
