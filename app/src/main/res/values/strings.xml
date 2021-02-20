@@ -50,8 +50,16 @@
     <string name="next_days">Next 6 days</string>
     <string name="loading">Loading</string>
     <string name="title_activity_maps">Map</string>
-    <string name="add_alarm">add alarm</string>
+    <string name="add_alarm">Add Alarm</string>
     <string name="alarms">Alarms</string>
     <string name="Reminder">Reminder</string>
+    <string name="internet">No internet connection</string>
+    <string name="map">Map</string>
+    <string name="do_you_want_an_alert_to_appear_when_the_weather_is_dangerous">Do you want an alert to appear when the weather is dangerous?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="show_alarm">Show alarts</string>
+    <string name="alarm_expired">This Alarm is expired</string>
+    <string name="cancel_alarm">Cancel alarm</string>
 
 </resources>

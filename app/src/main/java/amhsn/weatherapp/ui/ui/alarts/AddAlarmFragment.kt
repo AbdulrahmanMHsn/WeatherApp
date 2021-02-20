@@ -8,23 +8,32 @@ import android.view.ViewGroup
 import amhsn.weatherapp.R
 import amhsn.weatherapp.databinding.FragmentAddAlarmBinding
 import amhsn.weatherapp.pojo.CustomAlarm
+import amhsn.weatherapp.utils.worker.NotifyWorker
 import amhsn.weatherapp.viewmodel.AlarmViewModel
-import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.work.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class AddAlarmFragment : Fragment() {
 
+    private lateinit var idAlarm: String
+
+    // declaration vars
+    private lateinit var inputTime: Data
     private lateinit var binding: FragmentAddAlarmBinding
     private lateinit var viewModel: AlarmViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // create an object AlarmViewModel
         viewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,11 +44,13 @@ class AddAlarmFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.doneFab.setOnClickListener {
             val customCalendar = Calendar.getInstance()
+
             customCalendar.set(
                 binding.dateP.year,
                 binding.dateP.month,
@@ -48,18 +59,36 @@ class AddAlarmFragment : Fragment() {
                 binding.timeP.minute,
                 0
             )
+
             val customTime = customCalendar.timeInMillis
             val currentTime = System.currentTimeMillis()
-            Log.i("customTime", "userInterface: " + customTime)
+
             if (customTime > currentTime) {
-//                val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
                 val delay = customTime - currentTime
+                inputTime = Data.Builder().putLong("time", customTime).build()
+                setOneTimeWorkRequest(delay)
                 val customAlarm = CustomAlarm()
-                customAlarm.timestamp =customTime
+                customAlarm.timestamp = customTime
+                customAlarm.isTurn = true
+                customAlarm.idAlarm = idAlarm
                 viewModel.insertAlarm(customAlarm)
                 Navigation.findNavController(it).popBackStack()
             }
         }
+    }
+
+
+    /*
+    * A function use to call WorkManager
+    * */
+    private fun setOneTimeWorkRequest(delay: Long) {
+        val workManager: WorkManager = WorkManager.getInstance(requireContext())
+        val uploadRequest = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+            .setInputData(inputTime)
+            .build()
+        idAlarm = uploadRequest.id.toString()
+        workManager.enqueue(uploadRequest)
     }
 
 

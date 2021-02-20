@@ -32,4 +32,11 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
             alarmDao.deleteAlarm(alarm)
         }
     }
+
+    fun updateAlarm(alarm: CustomAlarm) {
+        GlobalScope.launch {
+            Dispatchers.IO
+            alarmDao.updateAlarm(alarm)
+        }
+    }
 }

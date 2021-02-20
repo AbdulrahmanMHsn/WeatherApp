@@ -73,4 +73,48 @@ object PrefHelper {
     }
 
 
+    fun setEnableCurrentLocation(enable: Boolean, mContext: Context): Boolean {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putBoolean("enable", enable)
+        return editor.commit()
+    }
+
+    fun getEnableCurrentLocation(mContext: Context): Boolean? {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        return mSharedPreferences.getBoolean("enable", false)
+    }
+
+
+    fun setEnableShowDialogAlert(enable: Boolean, mContext: Context): Boolean {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putBoolean("alert", enable)
+        return editor.commit()
+    }
+
+    fun getEnableShowDialogAlert(mContext: Context): Boolean? {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        return mSharedPreferences.getBoolean("alert", false)
+    }
+
+
+    fun setIsFirst(enable: Boolean, mContext: Context): Boolean {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putBoolean("first", enable)
+        return editor.commit()
+    }
+
+    fun getIsFirst(mContext: Context): Boolean? {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        return mSharedPreferences.getBoolean("first", false)
+    }
+
 }

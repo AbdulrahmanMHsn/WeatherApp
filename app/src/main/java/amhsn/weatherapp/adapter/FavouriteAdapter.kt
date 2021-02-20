@@ -22,6 +22,7 @@ class FavouriteAdapter(var listener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onItemDeleteClick(position: Int)
+        fun onItemClickListener(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteHolder {
@@ -59,14 +60,20 @@ class FavouriteAdapter(var listener: OnItemClickListener) :
         holder.itemBinding.itemFavTxtVwCity.text = item.city
         holder.itemBinding.itemFavTxtVwCountry.text = item.country
 
+//        holder.itemBinding.layoutItemFav.setOnClickListener {
+//            val bundle = Bundle()
+//            bundle.putDouble("lat", item.lat)
+//            bundle.putDouble("lon", item.lon)
+//            findNavController(it).navigate(
+//                R.id.action_favouriteFragment_to_favouriteDetailsFragment,
+//                bundle
+//            )
+//        }
+
         holder.itemBinding.layoutItemFav.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putDouble("lat", item.lat)
-            bundle.putDouble("lon", item.lon)
-            findNavController(it).navigate(
-                R.id.action_favouriteFragment_to_favouriteDetailsFragment,
-                bundle
-            )
+            if (position != RecyclerView.NO_POSITION) {
+                mListener.onItemClickListener(position)
+            }
         }
 
         holder.itemBinding.imageDelete.setOnClickListener {

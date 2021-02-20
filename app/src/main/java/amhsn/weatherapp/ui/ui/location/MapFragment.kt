@@ -8,13 +8,17 @@ import android.view.ViewGroup
 import amhsn.weatherapp.R
 import amhsn.weatherapp.databinding.FragmentMapBinding
 import amhsn.weatherapp.pojo.Favourite
+import amhsn.weatherapp.utils.Dialogs
+import amhsn.weatherapp.utils.PrefHelper
 import amhsn.weatherapp.viewmodel.WeatherViewModel
+import android.app.Dialog
 import android.location.Geocoder
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -26,15 +30,20 @@ import kotlin.collections.ArrayList
 
 class MapFragment : Fragment() {
 
+    private lateinit var mProgress: Dialog
+    private var title: String? = null
     private lateinit var binding: FragmentMapBinding
     private lateinit var googleMap: GoogleMap
-    private var listFav: List<Favourite> = ArrayList()
+
+    //    private var listFav: List<Favourite> = ArrayList()
     private lateinit var viewModel: WeatherViewModel
-    private var latlng: LatLng = LatLng(0.0,0.0)
+    private var latlng: LatLng = LatLng(0.0, 0.0)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
+
 
     }
 
@@ -44,10 +53,11 @@ class MapFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
-
-        viewModel.getLocalDataSource().observe(viewLifecycleOwner, Observer {
-            listFav = it
-        })
+        mProgress = Dialogs.createProgressBarDialog(context, "")
+//        mProgress.show()
+//        viewModel.getLocalDataSource().observe(viewLifecycleOwner, Observer {
+//            listFav = it
+//        })
 
         val mapFragment: SupportMapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -64,6 +74,13 @@ class MapFragment : Fragment() {
             }
         }
 
+
+        if (arguments != null) {
+            title = requireArguments().getString("settings").toString()
+        }
+
+
+
         return binding.root
     }
 
@@ -71,10 +88,19 @@ class MapFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.btnFind.setOnClickListener {
+            mProgress.show()
             if (latlng.latitude == 0.0) {
+                mProgress.show()
                 Toast.makeText(context, "choose a location", Toast.LENGTH_SHORT).show()
+                mProgress.dismiss()
             } else {
-                if (listFav.isEmpty()) {
+                mProgress.show()
+                if (!title.equals(null)) {
+                    mProgress.dismiss()
+                    PrefHelper.setLatLng(latlng.latitude, latlng.longitude, requireContext())
+                    Navigation.findNavController(it).popBackStack()
+//                    Toast.makeText(requireContext(), "hhhhhhhhh", Toast.LENGTH_SHORT).show()
+                } else {
                     val favourite = Favourite()
                     favourite.lat = latlng.latitude
                     favourite.lon = latlng.longitude
@@ -82,23 +108,30 @@ class MapFragment : Fragment() {
                     favourite.country = getCountry(latlng.latitude, latlng.longitude).toString()
                     viewModel.insertFavourite(favourite)
                     Toast.makeText(context, "Added location", Toast.LENGTH_SHORT).show()
-                } else {
-                    val favourite = Favourite()
-                    favourite.lat = latlng.latitude
-                    favourite.lon = latlng.longitude
-                    favourite.city = getCity(latlng.latitude, latlng.longitude).toString()
-                    favourite.country = getCountry(latlng.latitude, latlng.longitude).toString()
-                    if (listFav.contains(favourite)) {
-                        Toast.makeText(
-                            context,
-                            "The location was added before the previous",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        viewModel.insertFavourite(favourite)
-                        Toast.makeText(context, "Added location", Toast.LENGTH_SHORT).show()
-                    }
+                    mProgress.dismiss()
+                    Navigation.findNavController(it).popBackStack()
 
+//                    else {
+//                        val favourite = Favourite()
+//                        favourite.lat = latlng.latitude
+//                        favourite.lon = latlng.longitude
+//                        favourite.city = getCity(latlng.latitude, latlng.longitude).toString()
+//                        favourite.country = getCountry(latlng.latitude, latlng.longitude).toString()
+//                        if (listFav.contains(favourite)) {
+//                            Toast.makeText(
+//                                context,
+//                                "The location was added before the previous",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            mProgress.dismiss()
+//                        } else {
+//                            viewModel.insertFavourite(favourite)
+//                            Toast.makeText(context, "Added location", Toast.LENGTH_SHORT).show()
+//                            Navigation.findNavController(it).popBackStack()
+//                            mProgress.dismiss()
+//                        }
+//                        mProgress.dismiss()
+//                    }
                 }
             }
         }
@@ -112,7 +145,7 @@ class MapFragment : Fragment() {
         var result: String? = null
         try {
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
-            val addresses = geocoder.getFromLocation(lat, lon, 5)
+            val addresses = geocoder.getFromLocation(lat, lon, 1)
 
             val city = addresses[1]!!.locality
 
@@ -131,7 +164,7 @@ class MapFragment : Fragment() {
         var result: String? = null
         try {
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
-            val addresses = geocoder.getFromLocation(lat, lon, 5)
+            val addresses = geocoder.getFromLocation(lat, lon, 1)
 
             val country = addresses[0]!!.countryName
 

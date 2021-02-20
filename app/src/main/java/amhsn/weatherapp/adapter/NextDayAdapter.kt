@@ -19,7 +19,6 @@ class NextDayAdapter : RecyclerView.Adapter<NextDayAdapter.MovieHolder>() {
 
     private var arrayList: List<Daily> = ArrayList()
     private lateinit var bindingAdapter: ItemDailyBinding
-    private var currentCalendar = Calendar.getInstance()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
@@ -61,19 +60,14 @@ class NextDayAdapter : RecyclerView.Adapter<NextDayAdapter.MovieHolder>() {
                 .into(it)
         }
 
-//        if (currentCalendar.timeInMillis == (item.dt).toLong() * 1000) {
-//            holder.binding.hourlyTxtVwTime.text = "Todat"
-//        } else {
 
-            val date =
-                SimpleDateFormat("MMM dd", Locale.ENGLISH).format(Date((item.dt).toLong() * 1000))
+        val date =
+            SimpleDateFormat("MMM dd", Locale.ENGLISH).format(Date((item.dt).toLong() * 1000))
 
-            holder.binding.hourlyTxtVwTime.text = date
-//        }
+        holder.binding.hourlyTxtVwTime.text = date
 
         holder.binding.hourlyTxtVwTemp.text = item.temp.day.toString()
         holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).description
-//        holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).id.toString()
 
     }
 

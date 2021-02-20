@@ -2,10 +2,7 @@ package amhsn.weatherapp.database
 
 import amhsn.weatherapp.pojo.CustomAlarm
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface AlarmDao {
@@ -17,4 +14,7 @@ interface AlarmDao {
 
     @Delete
     fun deleteAlarm(alarm: CustomAlarm)
+
+    @Update
+    fun updateAlarm(alarm: CustomAlarm)
 }

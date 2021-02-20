@@ -7,7 +7,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Favourite::class, CustomAlarm::class], version = 2)
+@Database(entities = [Favourite::class, CustomAlarm::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getFavouriteDaoInstance(): FavouriteDao
@@ -19,7 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
             instance ?: synchronized(this)
             {
                 val roomInstance =
-                    Room.databaseBuilder(context, AppDatabase::class.java, "WeatherDB1").build()
+                    Room.databaseBuilder(context, AppDatabase::class.java, "WeatherDB").build()
                 instance = roomInstance
             }
             return instance!!

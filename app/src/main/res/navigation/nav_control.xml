@@ -52,15 +52,18 @@
         <action
             android:id="@+id/action_settingsFragment_to_home"
             app:destination="@id/home" />
+        <action
+            android:id="@+id/action_settingsFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="amhsn.weatherapp.ui.ui.location.MapFragment"
-        android:label="MapFragment" />
+        android:label="@string/map" />
     <fragment
         android:id="@+id/favouriteDetailsFragment"
         android:name="amhsn.weatherapp.ui.ui.favourite.FavouriteDetailsFragment"
-        android:label="FavouriteDetailsFragment" />
+        android:label="Item Details" />
     <fragment
         android:id="@+id/alarmsFragment"
         android:name="amhsn.weatherapp.ui.ui.alarts.AlarmsFragment"
@@ -73,5 +76,5 @@
     <fragment
         android:id="@+id/addAlarmFragment"
         android:name="amhsn.weatherapp.ui.ui.alarts.AddAlarmFragment"
-        android:label="AddAlarmFragment" />
+        android:label="@string/add_alarm" />
 </navigation>

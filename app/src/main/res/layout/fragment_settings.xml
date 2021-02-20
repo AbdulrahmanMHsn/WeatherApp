@@ -71,7 +71,6 @@
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <LinearLayout
-
                 android:id="@+id/layout_getCustomLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,6 +79,7 @@
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_switch">
 
@@ -163,6 +163,34 @@
                 app:layout_constraintTop_toBottomOf="@+id/view1"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+
+            <TextView
+                android:id="@+id/txt_alart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/show_alarm"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.063"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_notify" />
+
+            <Switch
+                android:id="@+id/settings_switch_alart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.989"
+                app:layout_constraintStart_toEndOf="@+id/txt_alart"
+                app:layout_constraintTop_toBottomOf="@+id/settings_switch_notify"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
             <View
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
@@ -171,7 +199,7 @@
                 android:background="#DDD6D6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_switch_notify" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_alart" />
 
 
             <TextView
@@ -244,52 +272,51 @@
             </RadioGroup>
 
 
+            <!--            <TextView-->
+            <!--                android:id="@+id/txt_wind"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="16dp"-->
+            <!--                android:layout_marginTop="32dp"-->
+            <!--                android:text="@string/units_of_wind"-->
+            <!--                android:textColor="@color/black"-->
+            <!--                android:textSize="14sp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.067"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/txt_temp" />-->
 
-<!--            <TextView-->
-<!--                android:id="@+id/txt_wind"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:layout_marginTop="32dp"-->
-<!--                android:text="@string/units_of_wind"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="14sp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.067"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/txt_temp" />-->
 
+            <!--            <RadioGroup-->
+            <!--                android:id="@+id/radioGroup2"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="16dp"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.885"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/txt_wind"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/radioGroupUint">-->
 
-<!--            <RadioGroup-->
-<!--                android:id="@+id/radioGroup2"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginEnd="16dp"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.885"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/txt_wind"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/radioGroupUint">-->
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/radioM"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:layout_marginEnd="16dp"-->
+            <!--                    android:checked="false"-->
+            <!--                    android:text="@string/m_s"-->
+            <!--                    android:textSize="14sp" />-->
 
-<!--                <RadioButton-->
-<!--                    android:id="@+id/radioM"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:checked="false"-->
-<!--                    android:text="@string/m_s"-->
-<!--                    android:textSize="14sp" />-->
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/radioKm"-->
+            <!--                    android:layout_width="fill_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginEnd="16dp"-->
+            <!--                    android:checked="false"-->
+            <!--                    android:text="@string/km_h"-->
+            <!--                    android:textSize="14sp" />-->
 
-<!--                <RadioButton-->
-<!--                    android:id="@+id/radioKm"-->
-<!--                    android:layout_width="fill_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:checked="false"-->
-<!--                    android:text="@string/km_h"-->
-<!--                    android:textSize="14sp" />-->
-
-<!--            </RadioGroup>-->
+            <!--            </RadioGroup>-->
 
             <View
                 android:id="@+id/view3"

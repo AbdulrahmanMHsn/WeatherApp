@@ -5,30 +5,41 @@ import amhsn.weatherapp.adapter.ViewPagerAdapter
 import amhsn.weatherapp.databinding.FragmentHomeBinding
 import amhsn.weatherapp.network.response.ResponseAPIWeather
 import amhsn.weatherapp.ui.ui.local.ContextWrapper
+import amhsn.weatherapp.utils.Dialogs
 import amhsn.weatherapp.utils.NetworkConnection
 import amhsn.weatherapp.utils.PrefHelper
+import amhsn.weatherapp.utils.worker.AlarmWorker
 import amhsn.weatherapp.viewmodel.WeatherViewModel
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import java.lang.Math.round
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
 class Home : Fragment() {
+
+    private lateinit var mProgress: Dialog
 
     // declaration vars
     private lateinit var binding: FragmentHomeBinding
@@ -38,8 +49,12 @@ class Home : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        requireActivity().recreate()
-        activity?.let { ContextWrapper.setLocale(it, PrefHelper.getLocalLanguage(requireContext())) }
+        activity?.let {
+            ContextWrapper.setLocale(
+                it,
+                PrefHelper.getLocalLanguage(requireContext())
+            )
+        }
         // initialization view model
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
     }
@@ -53,6 +68,7 @@ class Home : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        mProgress = Dialogs.createProgressBarDialog(context, "")
 
         getRemoteDataSource()
         setAdapters()
@@ -64,6 +80,9 @@ class Home : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (PrefHelper.getIsFirst(requireContext())!!.equals(true)) {
+            showDialogAlart()
+        }
 
         // definition NetworkConnection
         val networkConnection = NetworkConnection(requireContext())
@@ -75,7 +94,7 @@ class Home : Fragment() {
                 )
             } else {
                 PrefHelper.getAddress(requireContext())
-                Toast.makeText(context, "Not Connected", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.internet), Toast.LENGTH_SHORT).show()
             }
             binding.centerHome.txtVwCity.text = PrefHelper.getAddress(requireContext())
         })
@@ -113,6 +132,7 @@ class Home : Fragment() {
         adapter.addFragment(NextDays(), getString(R.string.next_days))
         binding.bottomHome.apply {
             pager.adapter = adapter
+            pager.isSaveEnabled = false
             tabLayout.setupWithViewPager(pager)
         }
     }
@@ -123,7 +143,7 @@ class Home : Fragment() {
     * */
     @SuppressLint("SetTextI18n")
     private fun getRemoteDataSource() {
-
+        mProgress.show()
         viewModel.getRemoteDataSource(
             PrefHelper.getLatitude(requireContext())!!.toDouble(),
             PrefHelper.getLongitude(requireContext())!!.toDouble(),
@@ -162,11 +182,17 @@ class Home : Fragment() {
                 binding.centerHome.txtVwTemp.text =
                     round(it.current.temp).toInt().toString() + "\u00b0"
 
+
+                binding.centerHome.txtVwTempFeels.text =
+                    "Feels like " + round(it.current.feels_like).toInt().toString() + "\u00b0"
+
                 binding.centerHome.imgWeatherIcon.let {
                     Glide.with(it)
                         .load(pathImg)
                         .into(it)
                 }
+
+                mProgress.dismiss()
 
 //                binding.swiperefresh.isRefreshing = false
             })
@@ -202,5 +228,37 @@ class Home : Fragment() {
     override fun onStart() {
         super.onStart()
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    }
+
+    private fun showDialogAlart() {
+        val dialog = Dialog(requireContext(), R.style.Theme_Dialog)
+        dialog.setContentView(R.layout.dialog_show_alart)
+        val btnYes = dialog.findViewById<Button>(R.id.dialog_btnYes)
+        val btnNo = dialog.findViewById<Button>(R.id.dialog_btnNo)
+
+        btnYes.setOnClickListener {
+            PrefHelper.setEnableShowDialogAlert(true, requireContext())
+            setPeriodicWorkRequest()
+            dialog.dismiss()
+        }
+
+        btnNo.setOnClickListener {
+            PrefHelper.setEnableShowDialogAlert(false, requireContext())
+            dialog.dismiss()
+        }
+
+        PrefHelper.setIsFirst(false, requireContext())
+
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+    }
+
+
+    private fun setPeriodicWorkRequest() {
+        val periodicWorkRequest =
+            PeriodicWorkRequest.Builder(AlarmWorker::class.java, 1, TimeUnit.HOURS)
+                .addTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
+                .build()
+        WorkManager.getInstance(requireContext()).enqueue(periodicWorkRequest)
     }
 }

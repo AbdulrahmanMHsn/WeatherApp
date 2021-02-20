@@ -15,7 +15,11 @@ class CustomAlarm {
     @ColumnInfo(name = "timestamp")
     var timestamp: Long =0
 
+    @ColumnInfo(name = "turn")
+    var isTurn: Boolean = true
+
+
     override fun toString(): String {
-        return "CustomAlarm(id=$id, idAlarm='$idAlarm', timestamp=$timestamp)"
+        return "CustomAlarm(id=$id, idAlarm='$idAlarm', timestamp=$timestamp, isTurn=$isTurn)"
     }
 }

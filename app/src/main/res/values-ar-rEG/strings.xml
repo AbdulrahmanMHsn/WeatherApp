@@ -20,7 +20,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="home">الرئيسية</string>
     <string name="location">الموقع</string>
-    <string name="favorite">المفضلة</string>
+    <string name="favorite">الاماكن المفضلة</string>
     <string name="settings">الاعدادات</string>
     <string name="share">Share</string>
     <string name="communicate">Communicate</string>
@@ -50,6 +50,16 @@
     <string name="next_days">الستة أيام القادمة </string>
     <string name="loading">برجاء الانتظار</string>
     <string name="title_activity_maps">Map</string>
-    <string name="add_alarm">add alarm</string>
-    <string name="alarms">Alarms</string>
+    <string name="add_alarm">اضافة منبه</string>
+    <string name="alarms">التنبيهات</string>
+    <string name="internet">لا يوجد اتصال بالإنترن </string>
+    <string name="map">الخريطة</string>
+    <string name="Reminder">وقت التذكير</string>
+    <string name="do_you_want_an_alert_to_appear_when_the_weather_is_dangerous">Do you want an alert to appear when the weather is dangerous?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="show_alarm">Show alarts</string>
+    <string name="alarm_expired">This Alarm is expired</string>
+    <string name="cancel_alarm">Cancel alarm</string>
+
 </resources>

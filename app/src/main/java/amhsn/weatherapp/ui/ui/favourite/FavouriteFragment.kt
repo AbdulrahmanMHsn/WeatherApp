@@ -3,6 +3,7 @@ package amhsn.weatherapp.ui.ui.favourite
 import amhsn.weatherapp.R
 import amhsn.weatherapp.adapter.FavouriteAdapter
 import amhsn.weatherapp.databinding.FragmentFavouriteBinding
+import amhsn.weatherapp.utils.NetworkConnection
 import amhsn.weatherapp.viewmodel.WeatherViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 class FavouriteFragment : Fragment(), FavouriteAdapter.OnItemClickListener {
 
+    private var isConnected: Boolean = false
     private lateinit var binding: FragmentFavouriteBinding
     private lateinit var adapter: FavouriteAdapter
     private lateinit var mView: View
@@ -36,6 +38,14 @@ class FavouriteFragment : Fragment(), FavouriteAdapter.OnItemClickListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favourite, container, false)
 
+        mView = container!!.rootView
+        // definition NetworkConnection
+        val networkConnection = NetworkConnection(requireContext())
+
+        networkConnection.observe(viewLifecycleOwner, Observer {
+            isConnected = it
+        })
+
         return binding.root
     }
 
@@ -50,8 +60,12 @@ class FavouriteFragment : Fragment(), FavouriteAdapter.OnItemClickListener {
 
 
         binding.customSearch.linearLayout.setOnClickListener {
-            Navigation.findNavController(view)
-                .navigate(R.id.action_favouriteFragment_to_mapFragment)
+            if (isConnected) {
+                Navigation.findNavController(view)
+                    .navigate(R.id.action_favouriteFragment_to_mapFragment)
+            } else {
+                Toast.makeText(context, getString(R.string.internet), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -64,7 +78,21 @@ class FavouriteFragment : Fragment(), FavouriteAdapter.OnItemClickListener {
 
     override fun onItemDeleteClick(position: Int) {
         adapter.getFavouriteAtPosition(position)?.let { viewModel.deleteFavourite(it) }
-        Toast.makeText(getContext(), position.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onItemClickListener(position: Int) {
+        if (isConnected) {
+            val item = adapter.getFavouriteAtPosition(position)
+            val bundle = Bundle()
+            bundle.putDouble("lat", item!!.lat)
+            bundle.putDouble("lon", item.lon)
+            Navigation.findNavController(mView).navigate(
+                R.id.action_favouriteFragment_to_favouriteDetailsFragment,
+                bundle
+            )
+        } else {
+            Toast.makeText(context, getString(R.string.internet), Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
