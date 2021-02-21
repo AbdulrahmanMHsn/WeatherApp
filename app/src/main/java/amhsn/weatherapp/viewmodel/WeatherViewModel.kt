@@ -25,10 +25,21 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
         return weatherRepo.getLocalDataSource()
     }
 
+    fun getWeatherLocalDataSource(): LiveData<ResponseAPIWeather> {
+        return weatherRepo.getWeatherLocalDataSource()
+    }
+
+    fun insertWeather(weather: ResponseAPIWeather) {
+        weatherRepo.insertWeather(weather)
+    }
+
+    fun deleteAllWeather() {
+        weatherRepo.deleteAllWeather()
+    }
+
     fun insertFavourite(favourite: Favourite) {
         weatherRepo.insertFavourite(favourite)
     }
-
 
     fun deleteFavourite(favourite: Favourite) {
         weatherRepo.deleteFavourite(favourite)

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import amhsn.weatherapp.R
 import amhsn.weatherapp.adapter.NextDayAdapter
 import amhsn.weatherapp.databinding.FragmentNextDaysBinding
+import amhsn.weatherapp.network.response.Daily
+import amhsn.weatherapp.network.response.Hourly
 import amhsn.weatherapp.viewmodel.WeatherViewModel
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 
-class NextDays : Fragment() {
+class NextDays(var list:List<Daily>) : Fragment() {
 
     private lateinit var binding: FragmentNextDaysBinding
     private lateinit var adapter: NextDayAdapter
@@ -70,13 +72,14 @@ class NextDays : Fragment() {
         binding.hourlyContainer.itemAnimator = DefaultItemAnimator()
         adapter = NextDayAdapter()
         binding.hourlyContainer.adapter = adapter
+        adapter.setList(list)
     }
 
     fun getRemoteDataSource() {
-        viewModel.getRemoteDataSource(30.052966803697707, 31.2111345601925,requireContext())
-            .observe(requireActivity(), Observer {
-                adapter.setList(it.daily)
-            })
+//        viewModel.getRemoteDataSource(30.052966803697707, 31.2111345601925,requireContext())
+//            .observe(requireActivity(), Observer {
+//                adapter.setList(it.daily)
+//            })
     }
 
 

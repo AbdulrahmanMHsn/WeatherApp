@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import amhsn.weatherapp.R
 import amhsn.weatherapp.utils.PrefHelper
+import android.os.Handler
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import java.util.*
 
@@ -25,17 +27,22 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("SplashFragment", "onViewCreated: "+PrefHelper.getLatitude(requireContext()))
-        if(PrefHelper.getLatitude(requireContext()) != 0.0){
-            Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_home2)
-        }else{
-            Navigation.findNavController(view).navigate(R.id.splash_to_locationService)
-        }
 
+        @Suppress("DEPRECATION")
+        Handler().postDelayed({
+            if(PrefHelper.getLatitude(requireContext()) != 0.0){
+                Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_home2)
+            }else{
+                Navigation.findNavController(view).navigate(R.id.splash_to_locationService)
+            }
+        }, 3000)
 
-        Log.i("Calendar", "onViewCreated: "+Calendar.getInstance().timeInMillis)
     }
 
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
 
 
 

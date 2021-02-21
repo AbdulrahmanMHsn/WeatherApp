@@ -11,13 +11,12 @@ import amhsn.weatherapp.databinding.FragmentHourlyBinding
 import amhsn.weatherapp.network.response.Hourly
 import amhsn.weatherapp.viewmodel.WeatherViewModel
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
-class HourlyFragment() : Fragment() {
+class HourlyFragment(var list:List<Hourly>) : Fragment() {
 
     private lateinit var binding: FragmentHourlyBinding
     private lateinit var adapter: HourlyAdapter
@@ -46,22 +45,6 @@ class HourlyFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
-
-
-
-//        val list: List<String> = mutableListOf(
-//            "asdas",
-//            "asdsa",
-//            "sadsa",
-//            "sadsa",
-//            "sadsa",
-//            "sadsa",
-//            "sadsa",
-//            "sadsa",        "sadsa",        "sadsa", "sadsa",
-//            "sadsa"
-//        )
-
-
     }
 
 
@@ -73,14 +56,14 @@ class HourlyFragment() : Fragment() {
         binding.hourlyContainer.itemAnimator = DefaultItemAnimator()
         adapter = HourlyAdapter()
         binding.hourlyContainer.adapter = adapter
-//        adapter.setList(list)
+        adapter.setList(list)
     }
 
     fun getRemoteDataSource() {
-        viewModel.getRemoteDataSource(30.052966803697707, 31.2111345601925,requireContext())
-            .observe(requireActivity(), Observer {
-                adapter.setList(it.hourly)
-            })
+//        viewModel.getRemoteDataSource(30.052966803697707, 31.2111345601925,requireContext())
+//            .observe(requireActivity(), Observer {
+//                adapter.setList(it.hourly)
+//            })
     }
 
 

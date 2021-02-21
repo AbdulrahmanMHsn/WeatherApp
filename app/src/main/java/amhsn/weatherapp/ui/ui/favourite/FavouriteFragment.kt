@@ -20,16 +20,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 class FavouriteFragment : Fragment(), FavouriteAdapter.OnItemClickListener {
 
+
     private var isConnected: Boolean = false
     private lateinit var binding: FragmentFavouriteBinding
     private lateinit var adapter: FavouriteAdapter
     private lateinit var mView: View
     private lateinit var viewModel: WeatherViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,13 +52,21 @@ class FavouriteFragment : Fragment(), FavouriteAdapter.OnItemClickListener {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mView = view
         initRecyclerView()
 
+
         viewModel.getLocalDataSource().observe(viewLifecycleOwner, Observer {
-            adapter.setList(it)
+            if (it.isEmpty()) {
+                binding.txtVwNoMore.visibility = View.VISIBLE
+                adapter.setList(it)
+            } else {
+                adapter.setList(it)
+                binding.txtVwNoMore.visibility = View.GONE
+            }
         })
 
 
@@ -69,6 +80,7 @@ class FavouriteFragment : Fragment(), FavouriteAdapter.OnItemClickListener {
         }
     }
 
+
     private fun initRecyclerView() {
         binding.favouriteContainer.setHasFixedSize(true)
         binding.favouriteContainer.layoutManager = LinearLayoutManager(requireActivity())
@@ -76,9 +88,12 @@ class FavouriteFragment : Fragment(), FavouriteAdapter.OnItemClickListener {
         binding.favouriteContainer.adapter = adapter
     }
 
+
+
     override fun onItemDeleteClick(position: Int) {
         adapter.getFavouriteAtPosition(position)?.let { viewModel.deleteFavourite(it) }
     }
+
 
     override fun onItemClickListener(position: Int) {
         if (isConnected) {

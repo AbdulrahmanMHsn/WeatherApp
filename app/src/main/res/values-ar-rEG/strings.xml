@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">Windy</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu">menu</string>
     <string name="notification">الاشعارات</string>
@@ -35,8 +35,8 @@
     <string name="show_notification">اظهار الاشعارات</string>
     <string name="units_of_temperature">وحدة درجة الحرارة</string>
     <string name="units_of_wind">سرعة الرياح</string>
-    <string name="m_s">م/ث</string>
-    <string name="km_h">كم/س</string>
+    <string name="m_s">متر/ث</string>
+    <string name="km_h">ميل/س</string>
     <string name="f">فيرناهيت</string>
     <string name="k">كيلفين</string>
     <string name="c">سيليزيس</string>
@@ -56,10 +56,12 @@
     <string name="map">الخريطة</string>
     <string name="Reminder">وقت التذكير</string>
     <string name="do_you_want_an_alert_to_appear_when_the_weather_is_dangerous">Do you want an alert to appear when the weather is dangerous?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
     <string name="show_alarm">Show alarts</string>
     <string name="alarm_expired">This Alarm is expired</string>
     <string name="cancel_alarm">Cancel alarm</string>
+    <string name="likes">أحس كأنني</string>
+    <string name="not_found_location">Not found location</string>
 
 </resources>

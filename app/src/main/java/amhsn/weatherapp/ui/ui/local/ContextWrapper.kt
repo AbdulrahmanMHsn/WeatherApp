@@ -7,8 +7,8 @@ import android.os.Build
 import android.os.LocaleList
 import java.util.*
 
-class ContextWrapper(base: Context?) :
-    android.content.ContextWrapper(base) {
+@Suppress("DEPRECATION")
+class ContextWrapper(base: Context?) : android.content.ContextWrapper(base) {
     companion object {
         fun changeLang(
             context: Context,

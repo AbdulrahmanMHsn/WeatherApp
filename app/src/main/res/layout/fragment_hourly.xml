@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.home.HourlyFragment">
@@ -10,9 +10,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hourly_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:scrollbars="horizontal"
             tools:listitem="@layout/item_hourly" />
 
-    </FrameLayout>
+    </ScrollView>
 </layout>

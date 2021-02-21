@@ -4,50 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-    <!--            android:id="@+id/swiperefresh"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
+    <!--    <ScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/layout_home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.home.Home">
 
             <LinearLayout
-                android:id="@+id/layout_home"
+                android:id="@+id/swiperefresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:context=".ui.home.Home">
+                android:layout_height="wrap_content">
 
-                <!--                &lt;!&ndash;        Top Layout&ndash;&gt;-->
-                <!--                <include-->
-                <!--                    android:id="@+id/toolbar_main"-->
-                <!--                    layout="@layout/layout_toolbar" />-->
-
-                <!--        Center Layout-->
                 <include
                     android:id="@+id/center_home"
                     layout="@layout/snippet_center_home" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <include
                     android:id="@+id/bottom_home"
                     layout="@layout/snippet_bottom_home" />
-
             </LinearLayout>
 
+        </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-<!--    </ScrollView>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    </ScrollView>-->
     <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 </layout>

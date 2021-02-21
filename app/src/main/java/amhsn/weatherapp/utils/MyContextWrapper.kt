@@ -1,5 +1,6 @@
 package amhsn.weatherapp.utils
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.ContextWrapper
@@ -10,6 +11,7 @@ import java.util.*
 class MyContextWrapper(base: Context) : ContextWrapper(base) {
     companion object {
 
+        @SuppressLint("ObsoleteSdkInt")
         @Suppress("DEPRECATION")
         fun wrap(ctx: Context, language: String): ContextWrapper {
             var context = ctx

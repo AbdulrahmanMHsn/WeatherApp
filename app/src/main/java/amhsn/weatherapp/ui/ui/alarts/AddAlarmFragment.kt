@@ -69,10 +69,13 @@ class AddAlarmFragment : Fragment() {
                 setOneTimeWorkRequest(delay)
                 val customAlarm = CustomAlarm()
                 customAlarm.timestamp = customTime
+                customAlarm.id = customTime
                 customAlarm.isTurn = true
                 customAlarm.idAlarm = idAlarm
                 viewModel.insertAlarm(customAlarm)
                 Navigation.findNavController(it).popBackStack()
+            }else{
+
             }
         }
     }

@@ -216,107 +216,120 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view2" />
 
-            <TextView
-                android:id="@+id/txt_temp"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/layoutUnitTemp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/units_of_temperature"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.067"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_units" />
-
-
-            <RadioGroup
-                android:id="@+id/radioGroupUint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/txt_temp"
-                app:layout_constraintTop_toBottomOf="@+id/view2">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_units">
 
-                <RadioButton
-                    android:id="@+id/radioF"
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:id="@+id/txt_temp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/units_of_temperature"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+
+                <RadioGroup
+                    android:id="@+id/radioGroupUint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="13dp"
+                    android:orientation="horizontal"
+                    tools:ignore="RelativeOverlap">
+
+                    <RadioButton
+                        android:id="@+id/radioF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:checked="false"
+                        android:text="@string/f"
+                        android:textSize="14sp" />
+
+                    <RadioButton
+                        android:id="@+id/radioK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:checked="false"
+                        android:text="@string/k"
+                        android:textSize="14sp" />
+
+                    <RadioButton
+                        android:id="@+id/radioC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="@string/c"
+                        android:textSize="14sp" />
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layoutUnitWind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutUnitTemp">
+
+                <TextView
+                    android:id="@+id/txt_wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/units_of_wind"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+
+                <RadioGroup
+                    android:id="@+id/radioGroupWind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
                     android:layout_marginEnd="16dp"
-                    android:checked="false"
-                    android:text="@string/f"
-                    android:textSize="14sp" />
+                    android:orientation="horizontal"
+                    tools:ignore="RelativeOverlap">
 
-                <RadioButton
-                    android:id="@+id/radioK"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:checked="false"
-                    android:text="@string/k"
-                    android:textSize="14sp" />
+                    <RadioButton
+                        android:id="@+id/radioMS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:checked="false"
+                        android:text="@string/m_s"
+                        android:textSize="14sp" />
 
-                <RadioButton
-                    android:id="@+id/radioC"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="@string/c"
-                    android:textSize="14sp" />
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/radioMH"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="@string/km_h"
+                        android:textSize="14sp" />
 
+                </RadioGroup>
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/txt_wind"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginStart="16dp"-->
-            <!--                android:layout_marginTop="32dp"-->
-            <!--                android:text="@string/units_of_wind"-->
-            <!--                android:textColor="@color/black"-->
-            <!--                android:textSize="14sp"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0.067"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/txt_temp" />-->
-
-
-            <!--            <RadioGroup-->
-            <!--                android:id="@+id/radioGroup2"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginEnd="16dp"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0.885"-->
-            <!--                app:layout_constraintStart_toEndOf="@+id/txt_wind"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/radioGroupUint">-->
-
-            <!--                <RadioButton-->
-            <!--                    android:id="@+id/radioM"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="match_parent"-->
-            <!--                    android:layout_marginEnd="16dp"-->
-            <!--                    android:checked="false"-->
-            <!--                    android:text="@string/m_s"-->
-            <!--                    android:textSize="14sp" />-->
-
-            <!--                <RadioButton-->
-            <!--                    android:id="@+id/radioKm"-->
-            <!--                    android:layout_width="fill_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginEnd="16dp"-->
-            <!--                    android:checked="false"-->
-            <!--                    android:text="@string/km_h"-->
-            <!--                    android:textSize="14sp" />-->
-
-            <!--            </RadioGroup>-->
+            </RelativeLayout>
 
             <View
                 android:id="@+id/view3"
@@ -326,7 +339,7 @@
                 android:background="#DDD6D6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroupUint" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutUnitWind" />
 
 
             <TextView
@@ -343,53 +356,57 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view3" />
 
-
-            <TextView
-                android:id="@+id/txt_lang"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/layoutUnitLang"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/language"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.067"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_language" />
-
-
-            <RadioGroup
-                android:id="@+id/radioGroupLang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.986"
-                app:layout_constraintStart_toEndOf="@+id/txt_lang"
-                app:layout_constraintTop_toBottomOf="@+id/view3">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_language">
 
-                <RadioButton
-                    android:id="@+id/radioAr"
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:id="@+id/txt_lang"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:checked="false"
-                    android:text="@string/Arabic"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/language"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
-                <RadioButton
-                    android:id="@+id/radioEn"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:checked="false"
-                    android:text="@string/english"
-                    android:textSize="14sp" />
 
-            </RadioGroup>
+                <RadioGroup
+                    android:id="@+id/radioGroupLang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="horizontal"
+                    tools:ignore="RelativeOverlap">
+
+                    <RadioButton
+                        android:id="@+id/radioAr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:checked="false"
+                        android:text="@string/Arabic"
+                        android:textSize="14sp" />
+
+                    <RadioButton
+                        android:id="@+id/radioEn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="@string/english"
+                        android:textSize="14sp" />
+
+                </RadioGroup>
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

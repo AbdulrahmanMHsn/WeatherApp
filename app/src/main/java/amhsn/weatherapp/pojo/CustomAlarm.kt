@@ -6,14 +6,15 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "alarm_table")
 class CustomAlarm {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int =0
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id")
+    var id: Long = 0
 
     @ColumnInfo(name = "idAlarm")
     var idAlarm: String = ""
 
     @ColumnInfo(name = "timestamp")
-    var timestamp: Long =0
+    var timestamp: Long = 0
 
     @ColumnInfo(name = "turn")
     var isTurn: Boolean = true

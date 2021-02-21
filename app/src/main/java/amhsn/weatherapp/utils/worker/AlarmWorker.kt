@@ -18,6 +18,7 @@ class AlarmWorker(context: Context, params: WorkerParameters) : Worker(context, 
     override fun doWork(): Result {
         try {
             getResponseFromApi()
+
             return Result.success()
         } catch (e: Exception) {
             return Result.failure()

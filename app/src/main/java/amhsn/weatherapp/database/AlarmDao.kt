@@ -17,4 +17,7 @@ interface AlarmDao {
 
     @Update
     fun updateAlarm(alarm: CustomAlarm)
+
+    @Query("delete from alarm_table where id = :id")
+    fun deleteAlarm(id: Long)
 }

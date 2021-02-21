@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import amhsn.weatherapp.R
 import amhsn.weatherapp.adapter.ViewPagerAdapter
 import amhsn.weatherapp.databinding.FragmentFavouriteDetailsBinding
+import amhsn.weatherapp.network.response.ResponseAPIWeather
 import amhsn.weatherapp.ui.home.HourlyFragment
 import amhsn.weatherapp.ui.home.NextDays
 import amhsn.weatherapp.ui.ui.local.ContextWrapper
@@ -54,21 +55,20 @@ class FavouriteDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_favourite_details, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favourite_details, container, false)
         getRemoteDataSource()
-        setAdapters()
+
         return binding.root
     }
 
 
     /*
-* A function use to setup viewPager
-* */
-    private fun setAdapters() {
+     * A function use to setup viewPager
+     * */
+    private fun setAdapters(weather:ResponseAPIWeather) {
         val adapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
-        adapter.addFragment(HourlyFragment(), getString(R.string.today))
-        adapter.addFragment(NextDays(), getString(R.string.next_days))
+        adapter.addFragment(HourlyFragment(weather.hourly), getString(R.string.today))
+        adapter.addFragment(NextDays(weather.daily), getString(R.string.next_days))
         binding.bottomHome.apply {
             pager.adapter = adapter
             tabLayout.setupWithViewPager(pager)
@@ -87,7 +87,10 @@ class FavouriteDetailsFragment : Fragment() {
             lon,
             requireContext()
         ).observe(requireActivity(), androidx.lifecycle.Observer {
-            val pathImg = "http://openweathermap.org/img/wn/${it.current.weather.get(0).icon}.png"
+
+            setAdapters(it)
+
+            val pathImg = "http://openweathermap.org/img/wn/${it.current.weather!!.get(0).icon}.png"
 
             val date = SimpleDateFormat(
                 "E dd MMM yyyy hh:mm a",
@@ -99,9 +102,10 @@ class FavouriteDetailsFragment : Fragment() {
                 lat,
                 lon
             )
+
             binding.centerHome.txtVwDate.text = date
 
-            binding.centerHome.txtVwDesc.text = it.current.weather.get(0).description
+            binding.centerHome.txtVwDesc.text = it.current.weather!!.get(0).description
 
             binding.centerHome.txtVwValueHumidity.text =
                 it.current.humidity.toString() + " %"

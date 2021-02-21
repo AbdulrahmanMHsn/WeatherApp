@@ -11,7 +11,6 @@ import amhsn.weatherapp.databinding.FragmentAlarmsBinding
 import amhsn.weatherapp.pojo.CustomAlarm
 import amhsn.weatherapp.utils.worker.NotifyWorker
 import amhsn.weatherapp.viewmodel.AlarmViewModel
-import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -24,7 +23,7 @@ import androidx.work.WorkManager
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-@Suppress("DEPRECATION")
+
 class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
 
     private lateinit var idAlarm: String
@@ -75,7 +74,10 @@ class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
 
 
     override fun onClickDelete(position: Int) {
-        adapter.getAlarmAtPosition(position)?.let { viewModel.deleteAlarm(it) }
+        val item = adapter.getAlarmAtPosition(position)
+//        adapter.getAlarmAtPosition(position)?.let { viewModel.deleteAlarm(it) }
+        viewModel.deleteAlarm(item!!.timestamp)
+        WorkManager.getInstance(requireContext()).cancelWorkById((UUID.fromString(item.idAlarm)))
     }
 
 
@@ -84,7 +86,7 @@ class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
         if (checked) {
             if (item!!.timestamp > System.currentTimeMillis()) {
                 val delay = item.timestamp - System.currentTimeMillis()
-                val inputTime = Data.Builder().putLong("time", item.timestamp).build()
+                val inputTime = Data.Builder().putLong("time", item.timestamp).putLong("id",item.id).build()
                 setOneTimeWorkRequest(delay, inputTime)
                 val obj = CustomAlarm()
                 obj.id = item.id
@@ -93,8 +95,7 @@ class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
                 obj.isTurn = true
                 viewModel.updateAlarm(obj)
             } else {
-                Toast.makeText(context, getString(R.string.alarm_expired), Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(context, getString(R.string.alarm_expired), Toast.LENGTH_SHORT).show()
                 adapter.notifyDataSetChanged()
             }
         } else {
@@ -104,8 +105,7 @@ class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
             obj.isTurn = false
             obj.idAlarm = item.idAlarm
             viewModel.updateAlarm(obj)
-            Log.i("aaaaaaaaaaaaa", "onChangerListener: "+item.idAlarm)
-            WorkManager.getInstance().cancelWorkById(UUID.fromString(item.idAlarm))
+            WorkManager.getInstance(requireContext()).cancelWorkById((UUID.fromString(item.idAlarm)))
             Toast.makeText(context, getString(R.string.cancel_alarm), Toast.LENGTH_SHORT).show()
         }
     }

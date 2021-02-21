@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">Windy</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu">menu</string>
@@ -35,8 +35,8 @@
     <string name="show_notification">Show notification</string>
     <string name="units_of_temperature">Temperature unit</string>
     <string name="units_of_wind">Wind speed</string>
-    <string name="m_s">m/s</string>
-    <string name="km_h">Km/h</string>
+    <string name="m_s">meter/sec</string>
+    <string name="km_h">mph</string>
     <string name="f">F</string>
     <string name="k">K</string>
     <string name="c">C</string>
@@ -58,4 +58,6 @@
     <string name="show_alarm">Show alarts</string>
     <string name="alarm_expired">This Alarm is expired</string>
     <string name="cancel_alarm">Cancel alarm</string>
+    <string name="likes">Feels like</string>
+    <string name="not_found_location">Not found location</string>
 </resources>

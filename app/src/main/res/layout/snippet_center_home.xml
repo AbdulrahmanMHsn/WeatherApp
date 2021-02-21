@@ -12,305 +12,312 @@
 
     <merge>
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue_dark">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/txtVw_lastUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="serif"
-                android:gravity="end"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txtVw_city"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="serif"
-                android:gravity="center"
-                tools:text="Dokki"
-                android:maxLines="1"
-                android:minLines="1"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtVw_lastUpdate" />
-
-            <!--            <TextView-->
-            <!--                android:id="@+id/txtVw_date"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="8dp"-->
-            <!--                android:gravity="center"-->
-            <!--                android:text="@string/monday"-->
-            <!--                android:textColor="@color/white"-->
-            <!--                android:textSize="18sp"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/txtVw_city" />-->
+                android:background="@color/blue_dark">
 
 
-            <TextView
-                android:id="@+id/txtVw_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                tools:text="Fri 12 February 12:23 am"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtVw_city" />
-
-
-            <TextView
-                android:id="@+id/txtVw_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="14dp"
-                android:fontFamily="sans-serif-thin"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="75sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/img_weatherIcon"
-                app:layout_constraintTop_toBottomOf="@id/txtVw_date" />
-
-            <ImageView
-                android:id="@+id/img_weatherIcon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="28dp"
-                android:contentDescription="@string/temp"
-                android:gravity="center"
-                android:src="@drawable/ic_cloudya"
-
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.35"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtVw_date" />
-
-<!--            <TextView-->
-<!--                android:id="@+id/txtVw_tempMinMax"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:fontFamily="@font/nunito_light"-->
-<!--                android:gravity="center"-->
-<!--                android:text="25\u00b0/12\u00b0"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="16sp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.38"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/txtVw_temp" />-->
-
-            <TextView
-                android:id="@+id/txtVw_tempFeels"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/nunito_light"
-                android:gravity="center"
-                tools:text="Feels like12\u00b0"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtVw_temp" />
-
-            <TextView
-                android:id="@+id/txtVw_desc"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                tools:text="Cloudy"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtVw_tempFeels" />
-
-            <!--            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"-->
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtVw_desc">
-
-                <RelativeLayout
-                    android:id="@+id/layout_humidity"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/txtVw_lastUpdate"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="serif"
+                    android:gravity="end"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_weatherIcon">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/img_humidity"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:contentDescription="@string/imghumidity"
-                        android:src="@drawable/ic_humidity" />
-
-                    <TextView
-                        android:id="@+id/txtVw_humidity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_humidity"
-                        android:layout_centerInParent="true"
-                        android:text="@string/humidity"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/txtVw_ValueHumidity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtVw_humidity"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="4dp"
-                        android:textColor="@color/white" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layout_pressure"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/txtVw_city"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginEnd="64dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:fontFamily="serif"
                     android:gravity="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
-                    app:layout_constraintHorizontal_bias="0.54"
-                    app:layout_constraintStart_toEndOf="@+id/layout_humidity"
-                    app:layout_constraintTop_toBottomOf="@+id/img_weatherIcon">
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtVw_lastUpdate"
+                    tools:text="Dokki" />
 
-                    <ImageView
-                        android:id="@+id/img_pressure"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:contentDescription="@string/imghumidity"
-                        android:src="@drawable/ic_pressure" />
+                <!--            <TextView-->
+                <!--                android:id="@+id/txtVw_date"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginTop="8dp"-->
+                <!--                android:gravity="center"-->
+                <!--                android:text="@string/monday"-->
+                <!--                android:textColor="@color/white"-->
+                <!--                android:textSize="18sp"-->
+                <!--                app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                app:layout_constraintStart_toStartOf="parent"-->
+                <!--                app:layout_constraintTop_toBottomOf="@id/txtVw_city" />-->
 
-                    <TextView
-                        android:id="@+id/txtVw_pressure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_pressure"
-                        android:layout_centerInParent="true"
-                        android:text="@string/pressure"
-                        android:textColor="@color/white" />
 
-                    <TextView
-                        android:id="@+id/txtVw_valuePressure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtVw_pressure"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="4dp"
-                        android:textColor="@color/white" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/relativeLayout"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/txtVw_date"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginTop="8dp"
-                    android:layout_weight="1"
                     android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtVw_city"
+                    tools:text="Fri 12 February 12:23 am" />
+
+
+                <TextView
+                    android:id="@+id/txtVw_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="75sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/img_weatherIcon"
+                    app:layout_constraintTop_toBottomOf="@id/txtVw_date"
+                    tools:text="7°" />
+
+                <ImageView
+                    android:id="@+id/img_weatherIcon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="28dp"
+                    android:contentDescription="@string/temp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.35"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtVw_date"
+                    tools:src="@drawable/ic_cloudya" />
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/txtVw_tempMinMax"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginTop="8dp"-->
+                <!--                android:fontFamily="@font/nunito_light"-->
+                <!--                android:gravity="center"-->
+                <!--                android:text="25\u00b0/12\u00b0"-->
+                <!--                android:textColor="@color/white"-->
+                <!--                android:textSize="16sp"-->
+                <!--                app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                app:layout_constraintHorizontal_bias="0.38"-->
+                <!--                app:layout_constraintStart_toStartOf="parent"-->
+                <!--                app:layout_constraintTop_toBottomOf="@id/txtVw_temp" />-->
+
+                <TextView
+                    android:id="@+id/txtVw_tempFeels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtVw_temp"
+                    tools:text="Feels like12\u00b0" />
+
+                <TextView
+                    android:id="@+id/txtVw_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtVw_tempFeels"
+                    tools:text="Cloudy" />
+
+                <!--            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"-->
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="8dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/imageView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtVw_desc">
+
+                    <RelativeLayout
+                        android:id="@+id/layout_humidity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/img_weatherIcon">
+
+                        <ImageView
+                            android:id="@+id/img_humidity"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="4dp"
+                            android:contentDescription="@string/imghumidity"
+                            android:src="@drawable/ic_humidity" />
+
+                        <TextView
+                            android:id="@+id/txtVw_humidity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/img_humidity"
+                            android:layout_centerInParent="true"
+                            android:text="@string/humidity"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txtVw_ValueHumidity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtVw_humidity"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="4dp"
+                            android:textColor="@color/white" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_pressure"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+                        app:layout_constraintHorizontal_bias="0.54"
+                        app:layout_constraintStart_toEndOf="@+id/layout_humidity"
+                        app:layout_constraintTop_toBottomOf="@+id/img_weatherIcon">
+
+                        <ImageView
+                            android:id="@+id/img_pressure"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="4dp"
+                            android:contentDescription="@string/imghumidity"
+                            android:src="@drawable/ic_pressure" />
+
+                        <TextView
+                            android:id="@+id/txtVw_pressure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/img_pressure"
+                            android:layout_centerInParent="true"
+                            android:text="@string/pressure"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txtVw_valuePressure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtVw_pressure"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="4dp"
+                            android:textColor="@color/white" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/img_weatherIcon">
+
+                        <ImageView
+                            android:id="@+id/img_speed"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="4dp"
+                            android:contentDescription="@string/imghumidity"
+                            android:src="@drawable/ic_wind" />
+
+                        <TextView
+                            android:id="@+id/txtVw_speed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/img_speed"
+                            android:layout_centerInParent="true"
+                            android:text="@string/speed_wind"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txtVw_valueSpeed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtVw_speed"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="4dp"
+                            android:textColor="@color/white" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bgu"
+                    android:contentDescription="@string/todo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_weatherIcon">
-
-                    <ImageView
-                        android:id="@+id/img_speed"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:contentDescription="@string/imghumidity"
-                        android:src="@drawable/ic_wind" />
-
-                    <TextView
-                        android:id="@+id/txtVw_speed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_speed"
-                        android:layout_centerInParent="true"
-                        android:text="@string/speed_wind"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/txtVw_valueSpeed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtVw_speed"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="4dp"
-                        android:textColor="@color/white" />
-
-                </RelativeLayout>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                    app:layout_constraintVertical_bias="1.0" />
 
 
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bgu"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                app:layout_constraintVertical_bias="1.0"
-                android:contentDescription="@string/todo" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </merge>
 

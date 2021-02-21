@@ -22,6 +22,36 @@ object PrefHelper {
         return mSharedPreferences.getString("unit", "metric")
     }
 
+
+    fun setLastUpdate(update: Long, mContext: Context): Boolean {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putLong("update", update)
+        return editor.commit()
+    }
+
+    fun getLastUpdate(mContext: Context): Long? {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        return mSharedPreferences.getLong("update", 0)
+    }
+
+
+    fun setUnitWind(unit: String, mContext: Context): Boolean {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putString("unitWind", unit)
+        return editor.commit()
+    }
+
+    fun getUnitWind(mContext: Context): String? {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        return mSharedPreferences.getString("unitWind", "metric")
+    }
+
     fun setLatLng(lat: Double, lon: Double, mContext: Context): Boolean {
         mSharedPreferences =
             mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
@@ -37,14 +67,14 @@ object PrefHelper {
         return mSharedPreferences.getFloat("lat", 0f).toDouble()
     }
 
-    fun getLongitude (mContext: Context): Double? {
+    fun getLongitude(mContext: Context): Double? {
         mSharedPreferences =
             mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
         return mSharedPreferences.getFloat("long", 0f).toDouble()
     }
 
 
-    fun setLocalLanguage(language:String, mContext: Context): Boolean {
+    fun setLocalLanguage(language: String, mContext: Context): Boolean {
         mSharedPreferences =
             mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = mSharedPreferences.edit()
@@ -116,5 +146,19 @@ object PrefHelper {
             mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
         return mSharedPreferences.getBoolean("first", false)
     }
+
+//    fun setIsFindLocalWeather(enable: Boolean, mContext: Context): Boolean {
+//        mSharedPreferences =
+//            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+//        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+//        editor.putBoolean("localWeather", enable)
+//        return editor.commit()
+//    }
+//
+//    fun getIsFindLocalWeather(mContext: Context): Boolean? {
+//        mSharedPreferences =
+//            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+//        return mSharedPreferences.getBoolean("localWeather", false)
+//    }
 
 }

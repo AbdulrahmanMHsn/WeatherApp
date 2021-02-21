@@ -8,10 +8,12 @@ import amhsn.weatherapp.utils.Dialogs
 import amhsn.weatherapp.utils.LocationHelper
 import amhsn.weatherapp.utils.NetworkConnection
 import amhsn.weatherapp.utils.PrefHelper
+import amhsn.weatherapp.utils.worker.AlarmWorker
 import amhsn.weatherapp.viewmodel.LocationViewModel
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +23,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import java.util.concurrent.TimeUnit
 
 
 class SettingsFragment : Fragment() {
@@ -37,6 +41,7 @@ class SettingsFragment : Fragment() {
         LocationHelper.init(requireContext())
         locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,6 +70,7 @@ class SettingsFragment : Fragment() {
             binding.settingsSwitchLocation.isChecked = false
         }
 
+
         if (PrefHelper.getEnableShowDialogAlert(requireContext())!!.equals(true)) {
             binding.settingsSwitchAlart.isChecked = true
         } else {
@@ -76,13 +82,15 @@ class SettingsFragment : Fragment() {
             if (isChecked) {
                 PrefHelper.setEnableShowDialogAlert(true, requireContext())
                 binding.settingsSwitchAlart.isChecked = true
+                setPeriodicWorkRequest()
             } else {
                 PrefHelper.setEnableShowDialogAlert(false, requireContext())
-                @Suppress("DEPRECATION")
-                WorkManager.getInstance().cancelAllWorkByTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
+                WorkManager.getInstance(requireContext())
+                    .cancelAllWorkByTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
                 binding.settingsSwitchAlart.isChecked = false
             }
         }
+
 
         binding.layoutGetCustomLocation.setOnClickListener {
             if (isConnected) {
@@ -141,6 +149,7 @@ class SettingsFragment : Fragment() {
             }
         }
 
+
         if (PrefHelper.getUnitTemp(requireContext()).equals("default")) {
             binding.radioGroupUint.check(R.id.radioK)
         } else if (PrefHelper.getUnitTemp(requireContext()).equals("metric")) {
@@ -157,14 +166,27 @@ class SettingsFragment : Fragment() {
         }
 
 
+        if (PrefHelper.getUnitWind(requireContext()).equals("m/s")) {
+            binding.radioGroupWind.check(R.id.radioMS)
+        } else {
+            binding.radioGroupWind.check(R.id.radioMH)
+        }
+
+
         binding.radioGroupUint.setOnCheckedChangeListener { group, checkedId ->
             if (isConnected) {
                 if (R.id.radioK == checkedId) {
                     PrefHelper.setUnitTemp("default", requireContext())
+                    PrefHelper.setUnitWind("m/s", requireContext())
+                    binding.radioGroupWind.check(R.id.radioMS)
                 } else if (R.id.radioC == checkedId) {
                     PrefHelper.setUnitTemp("metric", requireContext())
+                    PrefHelper.setUnitWind("m/s", requireContext())
+                    binding.radioGroupWind.check(R.id.radioMS)
                 } else if (R.id.radioF == checkedId) {
                     PrefHelper.setUnitTemp("imperial", requireContext())
+                    PrefHelper.setUnitWind("m/h", requireContext())
+                    binding.radioGroupWind.check(R.id.radioMH)
                 }
             } else {
                 Toast.makeText(requireContext(), getString(R.string.internet), Toast.LENGTH_SHORT)
@@ -175,6 +197,18 @@ class SettingsFragment : Fragment() {
                     binding.radioGroupUint.check(R.id.radioC)
                 } else if (PrefHelper.getUnitTemp(requireContext()).equals("imperial")) {
                     binding.radioGroupUint.check(R.id.radioF)
+                }
+            }
+        }
+
+        binding.radioGroupWind.setOnCheckedChangeListener { group, checkedId ->
+            if (isConnected) {
+                if (R.id.radioMH == checkedId) {
+                    PrefHelper.setUnitWind("m/h", requireContext())
+                    binding.radioGroupWind.check(R.id.radioMH)
+                } else {
+                    PrefHelper.setUnitWind("m/s", requireContext())
+                    binding.radioGroupWind.check(R.id.radioMS)
                 }
             }
         }
@@ -200,6 +234,23 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
+
+    }
+
+    private fun setPeriodicWorkRequest() {
+        val workManager: WorkManager? = this.context?.let { WorkManager.getInstance(it) }
+
+        val periodicWorkRequest =
+            PeriodicWorkRequest.Builder(AlarmWorker::class.java, 1, TimeUnit.HOURS)
+                .addTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
+                .build()
+
+       workManager!!.enqueue(periodicWorkRequest)
+        workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observe(viewLifecycleOwner,
+            Observer {
+                Log.i("iiiii", "setPeriodicWorkRequest: "+it.state)
+            })
+
 
     }
 

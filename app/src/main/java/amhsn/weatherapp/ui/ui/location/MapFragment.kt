@@ -16,7 +16,6 @@ import android.location.Geocoder
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,7 +24,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MapFragment : Fragment() {
@@ -99,7 +97,6 @@ class MapFragment : Fragment() {
                     mProgress.dismiss()
                     PrefHelper.setLatLng(latlng.latitude, latlng.longitude, requireContext())
                     Navigation.findNavController(it).popBackStack()
-//                    Toast.makeText(requireContext(), "hhhhhhhhh", Toast.LENGTH_SHORT).show()
                 } else {
                     val favourite = Favourite()
                     favourite.lat = latlng.latitude
@@ -147,7 +144,7 @@ class MapFragment : Fragment() {
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
             val addresses = geocoder.getFromLocation(lat, lon, 1)
 
-            val city = addresses[1]!!.locality
+            val city = addresses[0]!!.getAddressLine(0)
 
             result = city
 

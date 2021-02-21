@@ -34,7 +34,6 @@ import java.lang.Math.round
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 
 class Home : Fragment() {
@@ -44,7 +43,6 @@ class Home : Fragment() {
     // declaration vars
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: WeatherViewModel
-    private var list: List<ResponseAPIWeather> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +58,7 @@ class Home : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -69,9 +68,28 @@ class Home : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         mProgress = Dialogs.createProgressBarDialog(context, "")
-
-        getRemoteDataSource()
-        setAdapters()
+        // definition NetworkConnection
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                getRemoteDataSource()
+                getCompleteAddress(
+                    PrefHelper.getLatitude(requireContext())!!.toDouble(),
+                    PrefHelper.getLongitude(requireContext())!!.toDouble()
+                )
+                binding.centerHome.txtVwLastUpdate.visibility = View.GONE
+            } else {
+                PrefHelper.getAddress(requireContext())
+                Toast.makeText(context, getString(R.string.internet), Toast.LENGTH_SHORT).show()
+                getLocalDataSource()
+                // lastUpdate
+                val time = PrefHelper.getLastUpdate(requireContext())
+                val date = SimpleDateFormat("E dd MMM yyyy hh:mm a", Locale.ENGLISH).format(Date((time!!)))
+                binding.centerHome.txtVwLastUpdate.visibility = View.VISIBLE
+                binding.centerHome.txtVwLastUpdate.text = "${getString(R.string.last_update)} $date"
+            }
+            binding.centerHome.txtVwCity.text = PrefHelper.getAddress(requireContext())
+        })
 
         return binding.root
     }
@@ -80,24 +98,7 @@ class Home : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (PrefHelper.getIsFirst(requireContext())!!.equals(true)) {
-            showDialogAlart()
-        }
 
-        // definition NetworkConnection
-        val networkConnection = NetworkConnection(requireContext())
-        networkConnection.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                getCompleteAddress(
-                    PrefHelper.getLatitude(requireContext())!!.toDouble(),
-                    PrefHelper.getLongitude(requireContext())!!.toDouble()
-                )
-            } else {
-                PrefHelper.getAddress(requireContext())
-                Toast.makeText(context, getString(R.string.internet), Toast.LENGTH_SHORT).show()
-            }
-            binding.centerHome.txtVwCity.text = PrefHelper.getAddress(requireContext())
-        })
 
 
 //        setupRefreshLayout()
@@ -126,10 +127,10 @@ class Home : Fragment() {
     /*
     * A function use to setup viewPager
     * */
-    private fun setAdapters() {
+    private fun setAdapters(weather: ResponseAPIWeather) {
         val adapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
-        adapter.addFragment(HourlyFragment(), getString(R.string.today))
-        adapter.addFragment(NextDays(), getString(R.string.next_days))
+        adapter.addFragment(HourlyFragment(weather.hourly), getString(R.string.today))
+        adapter.addFragment(NextDays(weather.daily), getString(R.string.next_days))
         binding.bottomHome.apply {
             pager.adapter = adapter
             pager.isSaveEnabled = false
@@ -150,11 +151,9 @@ class Home : Fragment() {
             requireContext()
         ).observe(requireActivity(),
             Observer {
-
-                list = listOf(it)
-                setAdapters()
+                setAdapters(it)
                 val pathImg =
-                    "http://openweathermap.org/img/wn/${it.current.weather.get(0).icon}.png"
+                    "http://openweathermap.org/img/wn/${it.current.weather!!.get(0).icon}.png"
 
                 val date = SimpleDateFormat(
                     "E dd MMM yyyy hh:mm a",
@@ -168,7 +167,7 @@ class Home : Fragment() {
                 )
                 binding.centerHome.txtVwDate.text = date
 
-                binding.centerHome.txtVwDesc.text = it.current.weather.get(0).description
+                binding.centerHome.txtVwDesc.text = it.current.weather!!.get(0).description
 
                 binding.centerHome.txtVwValueHumidity.text =
                     it.current.humidity.toString() + " %"
@@ -176,15 +175,31 @@ class Home : Fragment() {
                 binding.centerHome.txtVwValuePressure.text =
                     it.current.pressure.toString() + " hPa"
 
-                binding.centerHome.txtVwValueSpeed.text =
-                    it.current.humidity.toString() + " " + getString(R.string.m_s)
+                binding.centerHome.txtVwTemp.text= round(it.current.temp).toInt().toString() + "\u00b0"
 
-                binding.centerHome.txtVwTemp.text =
-                    round(it.current.temp).toInt().toString() + "\u00b0"
+                if (PrefHelper.getUnitWind(requireContext()).equals("m/s")) {
+                    binding.centerHome.txtVwValueSpeed.text =
+                        it.current.humidity.toString() + " " + getString(R.string.m_s)
+                } else {
+                    binding.centerHome.txtVwValueSpeed.text =
+                        it.current.humidity.toString() + " " + getString(R.string.km_h)
+                }
+
+
+//                if (PrefHelper.getUnitTemp(requireContext()).equals("default")) {
+//                    binding.centerHome.txtVwTemp.text
+//                    round(it.current.temp).toInt().toString() + "\u00b0 K"
+//                } else if (PrefHelper.getUnitTemp(requireContext()).equals("metric")) {
+//                    binding.centerHome.txtVwTemp.text
+//                    round(it.current.temp).toInt().toString() + "\u00b0 C"
+//                } else if (PrefHelper.getUnitTemp(requireContext()).equals("imperial")) {
+//                    binding.centerHome.txtVwTemp.text
+//                    round(it.current.temp).toInt().toString() + "\u00b0 F"
+//                }
 
 
                 binding.centerHome.txtVwTempFeels.text =
-                    "Feels like " + round(it.current.feels_like).toInt().toString() + "\u00b0"
+                    getString(R.string.likes)+" "+ round(it.current.feels_like).toInt().toString() + "\u00b0"
 
                 binding.centerHome.imgWeatherIcon.let {
                     Glide.with(it)
@@ -193,6 +208,84 @@ class Home : Fragment() {
                 }
 
                 mProgress.dismiss()
+
+                if (PrefHelper.getIsFirst(requireContext())!!.equals(true)) {
+                    showDialogAlart()
+                }
+
+//                binding.swiperefresh.isRefreshing = false
+            })
+    }
+
+
+    private fun getLocalDataSource() {
+        mProgress.show()
+        viewModel.getWeatherLocalDataSource().observe(requireActivity(),
+            Observer {
+
+                Log.i("ONONONON", "getLocalDataSource: " + it)
+
+
+                setAdapters(it)
+                val pathImg =
+                    "http://openweathermap.org/img/wn/${it.current.weather!!.get(0).icon}.png"
+//
+                val date = SimpleDateFormat(
+                    "E dd MMM yyyy hh:mm a",
+                    Locale.ENGLISH
+                ).format(Date((it.current.dt).toLong() * 1000))
+//
+//                // set data in view
+                binding.centerHome.txtVwCity.text = PrefHelper.getAddress(requireContext())
+                binding.centerHome.txtVwDate.text = date
+//
+                binding.centerHome.txtVwDesc.text = it.current.weather!!.get(0).description
+
+                binding.centerHome.txtVwValueHumidity.text =
+                    it.current.humidity.toString() + " %"
+
+                binding.centerHome.txtVwValuePressure.text =
+                    it.current.pressure.toString() + " hPa"
+
+                binding.centerHome.txtVwTemp.text = round(it.current.temp).toInt().toString() + "\u00b0"
+
+                if (PrefHelper.getUnitWind(requireContext()).equals("m/s")) {
+                    binding.centerHome.txtVwValueSpeed.text =
+                        it.current.humidity.toString() + " " + getString(R.string.m_s)
+                } else {
+                    binding.centerHome.txtVwValueSpeed.text =
+                        it.current.humidity.toString() + " " + getString(R.string.km_h)
+                }
+
+
+
+//                if (PrefHelper.getUnitTemp(requireContext()).equals("default")) {
+//                    binding.centerHome.txtVwTemp.text
+//                    round(it.current.temp).toInt().toString() + "\u00b0 K"
+//                } else if (PrefHelper.getUnitTemp(requireContext()).equals("metric")) {
+//                    binding.centerHome.txtVwTemp.text
+//                    round(it.current.temp).toInt().toString() + "\u00b0 C"
+//                } else if (PrefHelper.getUnitTemp(requireContext()).equals("imperial")) {
+//                    binding.centerHome.txtVwTemp.text
+//                    round(it.current.temp).toInt().toString() + "\u00b0 F"
+//                }
+
+
+
+                binding.centerHome.txtVwTempFeels.text =
+                    getString(R.string.likes)+" "+ round(it.current.feels_like).toInt().toString() + "\u00b0"
+
+                binding.centerHome.imgWeatherIcon.let {
+                    Glide.with(it)
+                        .load(pathImg)
+                        .into(it)
+                }
+
+                mProgress.dismiss()
+
+                if (PrefHelper.getIsFirst(requireContext())!!.equals(true)) {
+                    showDialogAlart()
+                }
 
 //                binding.swiperefresh.isRefreshing = false
             })
@@ -208,12 +301,16 @@ class Home : Fragment() {
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
             val addresses = geocoder.getFromLocation(lat, lon, 5)
 
+            val address  = addresses[0].getAddressLine(0)
+            val splitAddress = address.split(",")
+            val newAddress = splitAddress[0]
+            Log.i("TAGaddress", "getCompleteAddress: "+address)
             val city = addresses[1]!!.locality
             val state: String = addresses[0]!!.getAdminArea()
             val splitState = state.split(" ")
             val newState = splitState[0]
 
-            result = city + ", " + newState
+            result =address
             PrefHelper.setAddress(result, requireContext())
 
             Log.w("getCompleteAddress", result)
