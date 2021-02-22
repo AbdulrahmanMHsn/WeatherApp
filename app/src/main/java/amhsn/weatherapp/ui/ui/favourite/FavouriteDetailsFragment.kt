@@ -103,6 +103,9 @@ class FavouriteDetailsFragment : Fragment() {
                 lon
             )
 
+            binding.centerHome.txtVwTempFeels.text =
+                getString(R.string.likes)+" "+ Math.round(it.current.feels_like).toInt().toString() + "\u00b0"
+
             binding.centerHome.txtVwDate.text = date
 
             binding.centerHome.txtVwDesc.text = it.current.weather!!.get(0).description
@@ -111,7 +114,7 @@ class FavouriteDetailsFragment : Fragment() {
                 it.current.humidity.toString() + " %"
 
             binding.centerHome.txtVwValuePressure.text =
-                it.current.pressure.toString() + " hPa"
+                it.current.pressure.toString() + " "+getString(R.string.hpa)
 
             binding.centerHome.txtVwValueSpeed.text =
                 it.current.humidity.toString() + " " + getString(R.string.m_s)

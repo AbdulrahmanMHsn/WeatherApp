@@ -21,6 +21,7 @@ class HourlyFragment(var list:List<Hourly>) : Fragment() {
     private lateinit var binding: FragmentHourlyBinding
     private lateinit var adapter: HourlyAdapter
     private lateinit var viewModel: WeatherViewModel
+    private var mList: List<Hourly> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +57,7 @@ class HourlyFragment(var list:List<Hourly>) : Fragment() {
         binding.hourlyContainer.itemAnimator = DefaultItemAnimator()
         adapter = HourlyAdapter()
         binding.hourlyContainer.adapter = adapter
+
         adapter.setList(list)
     }
 

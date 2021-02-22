@@ -30,6 +30,7 @@ class SplashFragment : Fragment() {
 
         @Suppress("DEPRECATION")
         Handler().postDelayed({
+            Log.i("TAG", "onViewCreated: "+PrefHelper.getLatitude(requireContext())!!)
             if(PrefHelper.getLatitude(requireContext()) != 0.0){
                 Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_home2)
             }else{

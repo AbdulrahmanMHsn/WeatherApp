@@ -12,15 +12,12 @@ import amhsn.weatherapp.utils.worker.AlarmWorker
 import amhsn.weatherapp.viewmodel.LocationViewModel
 import android.app.Dialog
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -37,7 +34,9 @@ class SettingsFragment : Fragment() {
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var binding: FragmentSettingsBinding
     private var isConnected: Boolean = false
-    private var OVER_RELAY_PERMISSION_CODE: Int = 10001
+//    private var OVER_RELAY_PERMISSION_CODE: Int = 10001
+    private lateinit var mView: View
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +59,7 @@ class SettingsFragment : Fragment() {
             isConnected = it
         })
 
+        mView = container!!.rootView
         return binding.root
     }
 
@@ -67,6 +67,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // current location
         if (PrefHelper.getEnableCurrentLocation(requireContext())!!.equals(true)) {
             binding.settingsSwitchLocation.isChecked = true
         } else {
@@ -74,36 +75,43 @@ class SettingsFragment : Fragment() {
         }
 
 
-//        if (PrefHelper.getEnableShowDialogAlert(requireContext())!!.equals(true)) {
-//            bindig.settingsSwitchAlart.isChecked = true
-//        } else {
-//            binding.settingsSwitchAlart.isChecked = false
-//        }
-
+        // notification
         if (PrefHelper.getEnableNotification(requireContext())!!.equals(true)) {
             binding.settingsSwitchNotify.isChecked = true
         } else {
             binding.settingsSwitchNotify.isChecked = false
         }
 
-//        binding.settingsSwitchAlart.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if (isChecked) {
-//                PrefHelper.setEnableShowDialogAlert(true, requireContext())
-//                binding.settingsSwitchAlart.isChecked = true
-//                setPeriodicWorkRequest()
-//                getPermission()
-//            } else {
-//                PrefHelper.setEnableShowDialogAlert(false, requireContext())
-//                WorkManager.getInstance(requireContext())
-//                    .cancelAllWorkByTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
-//                binding.settingsSwitchAlart.isChecked = false
-//            }
-//        }
+        // unit temp
+        if (PrefHelper.getUnitTemp(requireContext()).equals("default")) {
+            binding.radioGroupUint.check(R.id.radioK)
+        } else if (PrefHelper.getUnitTemp(requireContext()).equals("metric")) {
+            binding.radioGroupUint.check(R.id.radioC)
+        } else if (PrefHelper.getUnitTemp(requireContext()).equals("imperial")) {
+            binding.radioGroupUint.check(R.id.radioF)
+        }
+
+        // language
+        if (PrefHelper.getLocalLanguage(requireContext()).equals("en")) {
+            binding.radioGroupLang.check(R.id.radioEn)
+        } else if (PrefHelper.getLocalLanguage(requireContext()).equals("ar")) {
+            binding.radioGroupLang.check(R.id.radioAr)
+        }
+
+        // unit wind
+        if (PrefHelper.getUnitWind(requireContext()).equals("m/s")) {
+            binding.radioGroupWind.check(R.id.radioMS)
+        } else {
+            binding.radioGroupWind.check(R.id.radioMH)
+        }
+
+
 
         binding.settingsSwitchNotify.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 PrefHelper.setEnableNotification(true, requireContext())
                 binding.settingsSwitchNotify.isChecked = true
+                setPeriodicWorkRequest()
             } else {
                 PrefHelper.setEnableNotification(false, requireContext())
                 WorkManager.getInstance(requireContext())
@@ -112,19 +120,6 @@ class SettingsFragment : Fragment() {
             }
         }
 
-//        binding.settingsSwitchLocation.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if (isChecked) {
-//                PrefHelper.setEnableShowDialogAlert(true, requireContext())
-//                binding.settingsSwitchLocation.isChecked = true
-//                setPeriodicWorkRequest()
-//                getPermission()
-//            } else {
-//                PrefHelper.setEnableShowDialogAlert(false, requireContext())
-//                WorkManager.getInstance(requireContext())
-//                    .cancelAllWorkByTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
-//                binding.settingsSwitchLocation.isChecked = false
-//            }
-//        }
 
         binding.layoutGetCustomLocation.setOnClickListener {
             if (isConnected) {
@@ -147,6 +142,7 @@ class SettingsFragment : Fragment() {
             }
 
         }
+
 
         binding.settingsSwitchLocation.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isConnected) {
@@ -184,29 +180,6 @@ class SettingsFragment : Fragment() {
         }
 
 
-        if (PrefHelper.getUnitTemp(requireContext()).equals("default")) {
-            binding.radioGroupUint.check(R.id.radioK)
-        } else if (PrefHelper.getUnitTemp(requireContext()).equals("metric")) {
-            binding.radioGroupUint.check(R.id.radioC)
-        } else if (PrefHelper.getUnitTemp(requireContext()).equals("imperial")) {
-            binding.radioGroupUint.check(R.id.radioF)
-        }
-
-
-        if (PrefHelper.getLocalLanguage(requireContext()).equals("en")) {
-            binding.radioGroupLang.check(R.id.radioEn)
-        } else if (PrefHelper.getLocalLanguage(requireContext()).equals("ar")) {
-            binding.radioGroupLang.check(R.id.radioAr)
-        }
-
-
-        if (PrefHelper.getUnitWind(requireContext()).equals("m/s")) {
-            binding.radioGroupWind.check(R.id.radioMS)
-        } else {
-            binding.radioGroupWind.check(R.id.radioMH)
-        }
-
-
         binding.radioGroupUint.setOnCheckedChangeListener { group, checkedId ->
             if (isConnected) {
                 if (R.id.radioK == checkedId) {
@@ -235,6 +208,7 @@ class SettingsFragment : Fragment() {
             }
         }
 
+
         binding.radioGroupWind.setOnCheckedChangeListener { group, checkedId ->
             if (isConnected) {
                 if (R.id.radioMH == checkedId) {
@@ -246,6 +220,7 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
+
 
         binding.radioGroupLang.setOnCheckedChangeListener { group, checkedId ->
             if (isConnected) {
@@ -288,42 +263,50 @@ class SettingsFragment : Fragment() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == OVER_RELAY_PERMISSION_CODE) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this.requireContext())) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Permission denied by the user.",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == OVER_RELAY_PERMISSION_CODE) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this.requireContext())) {
+//                Toast.makeText(
+//                    this.requireContext(),
+//                    "Permission denied by the user.",
+//                    Toast.LENGTH_SHORT
+//                )
+//                    .show()
+//            }
+//        }
+//    }
+//
+//    private fun getPermission() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this.requireContext())) {
+//            android.app.AlertDialog.Builder(this.requireContext())
+//                .setMessage("Allow weather wizard to display over other apps.")
+//                .setPositiveButton("Yes") { dialog, which ->
+//                    val intent = Intent(
+//                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION
+//                    )
+//                    startActivityForResult(
+//                        intent,
+//                        OVER_RELAY_PERMISSION_CODE
+//                    )
+//                }
+//                .setNegativeButton("No") { dialog, which ->
+//                    Toast.makeText(
+//                        this.requireContext(),
+//                        "The Application must have this permission for the alert functionality.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }.create().show()
+//        }
+//    }
 
-    private fun getPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this.requireContext())) {
-            android.app.AlertDialog.Builder(this.requireContext())
-                .setMessage("Allow weather wizard to display over other apps.")
-                .setPositiveButton("Yes") { dialog, which ->
-                    val intent = Intent(
-                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION
-                    )
-                    startActivityForResult(
-                        intent,
-                        OVER_RELAY_PERMISSION_CODE
-                    )
-                }
-                .setNegativeButton("No") { dialog, which ->
-                    Toast.makeText(
-                        this.requireContext(),
-                        "The Application must have this permission for the alert functionality.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }.create().show()
-        }
-    }
+//    private fun setPeriodicWorkRequest() {
+//        val periodicWorkRequest =
+//            PeriodicWorkRequest.Builder(AlarmWorker::class.java, 1, TimeUnit.HOURS)
+//                .addTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
+//                .build()
+//        WorkManager.getInstance(requireContext()).enqueue(periodicWorkRequest)
+//    }
 
 
 }

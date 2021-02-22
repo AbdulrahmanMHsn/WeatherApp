@@ -32,7 +32,7 @@
     <string name="used_device_location">Use device location</string>
     <string name="allow_location">Allow the app to get your location</string>
     <string name="desc_customLocation">The location for which the weather is displayed</string>
-    <string name="show_notification">Show notification</string>
+    <string name="show_notification">Notification Alert</string>
     <string name="units_of_temperature">Temperature unit</string>
     <string name="units_of_wind">Wind speed</string>
     <string name="m_s">meter/sec</string>
@@ -67,4 +67,6 @@
     <string name="alarm_sound">Alarm sound</string>
     <string name="date_time"><![CDATA[Date &Time]]></string>
     <string name="date_expired">The date is expired</string>
+    <string name="item_details">Item Details</string>
+    <string name="hpa">hpa</string>
 </resources>

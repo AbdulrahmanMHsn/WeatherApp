@@ -89,7 +89,8 @@ class AddAlarmFragment : Fragment() {
             val customTime = customCalendar.timeInMillis
             val currentTime = System.currentTimeMillis()
 
-
+            if(type.equals("alarm")){
+                getPermission()
                 if (customTime > currentTime) {
                     val delay = customTime - currentTime
                     inputTime =
@@ -109,9 +110,27 @@ class AddAlarmFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-//            }else{
-//                Navigation.findNavController(it).navigate(R.id.action_addAlarmFragment_to_settingsFragment)
-//            }
+            } else {
+                if (customTime > currentTime) {
+                    val delay = customTime - currentTime
+                    inputTime =
+                        Data.Builder().putLong("time", customTime).putString("type", type).build()
+                    setOneTimeWorkRequest(delay)
+                    val customAlarm = CustomAlarm()
+                    customAlarm.timestamp = customTime
+                    customAlarm.id = customTime
+                    customAlarm.isTurn = true
+                    customAlarm.idAlarm = idAlarm
+                    viewModel.insertAlarm(customAlarm)
+                    Navigation.findNavController(it).popBackStack()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.date_expired),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 

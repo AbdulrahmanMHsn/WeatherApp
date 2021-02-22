@@ -74,7 +74,7 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.MovieHolder>() {
             holder.binding.hourlyTxtVwTime.text = date
         }
 
-        holder.binding.hourlyTxtVwTemp.text = item.temp.toString()
+        holder.binding.hourlyTxtVwTemp.text = Math.round(item.temp).toInt().toString() + "\u00b0"
         holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).description
 
 

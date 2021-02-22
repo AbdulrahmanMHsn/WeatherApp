@@ -66,7 +66,8 @@ class NextDayAdapter : RecyclerView.Adapter<NextDayAdapter.MovieHolder>() {
 
         holder.binding.hourlyTxtVwTime.text = date
 
-        holder.binding.hourlyTxtVwTemp.text = item.temp.day.toString()
+
+        holder.binding.hourlyTxtVwTemp.text = Math.round(item.temp.day).toInt().toString() + "\u00b0"
         holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).description
 
     }

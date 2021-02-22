@@ -19,11 +19,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
         tools:targetApi="m">
-        <activity android:name=".DialogActivity" android:theme="@style/Theme.Transparent" android:launchMode="singleTop"/>
+        <activity android:name=".ui.ui.SplashActivity"></activity>
+        <activity
+            android:name=".DialogActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Transparent" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyDG809Y-8li8Y9ZbwRZJ3uQJauHwOjqQTU" />
 
         <activity
             android:name=".ui.ui.location.MapsActivity"
@@ -39,7 +43,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
 
 </manifest>

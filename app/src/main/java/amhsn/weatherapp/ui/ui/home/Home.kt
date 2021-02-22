@@ -12,6 +12,7 @@ import amhsn.weatherapp.utils.worker.AlarmWorker
 import amhsn.weatherapp.viewmodel.WeatherViewModel
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -61,6 +62,11 @@ class Home : Fragment() {
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
     }
 
+//    override fun onAttach(context: Context) {
+//        val context: Context =
+//            ContextWrapper.changeLang(context, Locale(PrefHelper.getLocalLanguage(context)))
+//        super.onAttach(context)
+//    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -177,7 +183,7 @@ class Home : Fragment() {
                     it.current.humidity.toString() + " %"
 
                 binding.centerHome.txtVwValuePressure.text =
-                    it.current.pressure.toString() + " hPa"
+                    it.current.pressure.toString() + " "+getString(R.string.hpa)
 
                 binding.centerHome.txtVwTemp.text= round(it.current.temp).toInt().toString() + "\u00b0"
 
@@ -249,7 +255,7 @@ class Home : Fragment() {
                     it.current.humidity.toString() + " %"
 
                 binding.centerHome.txtVwValuePressure.text =
-                    it.current.pressure.toString() + " hPa"
+                    it.current.pressure.toString() + " "+getString(R.string.hpa)
 
                 binding.centerHome.txtVwTemp.text = round(it.current.temp).toInt().toString() + "\u00b0"
 
@@ -339,13 +345,13 @@ class Home : Fragment() {
 
         btnYes.setOnClickListener {
             getPermission()
-            PrefHelper.setEnableShowDialogAlert(true, requireContext())
+            PrefHelper.setEnableNotification(true, requireContext())
             setPeriodicWorkRequest()
             dialog.dismiss()
         }
 
         btnNo.setOnClickListener {
-            PrefHelper.setEnableShowDialogAlert(false, requireContext())
+            PrefHelper.setEnableNotification(false, requireContext())
             dialog.dismiss()
         }
 
@@ -354,8 +360,6 @@ class Home : Fragment() {
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
-
-
 
 
     private fun setPeriodicWorkRequest() {

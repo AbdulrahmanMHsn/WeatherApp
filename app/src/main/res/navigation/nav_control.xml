@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/favouriteDetailsFragment"
         android:name="amhsn.weatherapp.ui.ui.favourite.FavouriteDetailsFragment"
-        android:label="Item Details" />
+        android:label="@string/item_details" />
     <fragment
         android:id="@+id/alarmsFragment"
         android:name="amhsn.weatherapp.ui.ui.alarts.AlarmsFragment"
