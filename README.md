@@ -22,4 +22,5 @@ addition you can set an alert for rain, wind, very low or very high temperature,
 - Material Design
 - Architecture Pattern (MVVM)
 - LiveData and MutableLiveData
+- DataBinding
 
