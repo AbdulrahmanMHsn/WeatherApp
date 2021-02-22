@@ -4,9 +4,13 @@ addition you can set an alert for rain, wind, very low or very high temperature,
 
 Name : Abdulrahman Mostafa Hassan
 
+### Project Specification
+- Minimum Sdk Version 21
+- Target Sdk Version 30
+
 # Technologies that were used
--Kotlin
--Navigation component UI (Naviagtion Drawer) & Fragment
+- Kotlin
+- Navigation component UI (Naviagtion Drawer) & Fragment
 .Retrofit (REST API's)
 .Kotlin coroutines
 .Room Database
