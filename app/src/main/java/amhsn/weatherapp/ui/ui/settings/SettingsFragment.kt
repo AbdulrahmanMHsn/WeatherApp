@@ -12,12 +12,15 @@ import amhsn.weatherapp.utils.worker.AlarmWorker
 import amhsn.weatherapp.viewmodel.LocationViewModel
 import android.app.Dialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -34,7 +37,7 @@ class SettingsFragment : Fragment() {
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var binding: FragmentSettingsBinding
     private var isConnected: Boolean = false
-
+    private var OVER_RELAY_PERMISSION_CODE: Int = 10001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,26 +74,57 @@ class SettingsFragment : Fragment() {
         }
 
 
-        if (PrefHelper.getEnableShowDialogAlert(requireContext())!!.equals(true)) {
-            binding.settingsSwitchAlart.isChecked = true
+//        if (PrefHelper.getEnableShowDialogAlert(requireContext())!!.equals(true)) {
+//            bindig.settingsSwitchAlart.isChecked = true
+//        } else {
+//            binding.settingsSwitchAlart.isChecked = false
+//        }
+
+        if (PrefHelper.getEnableNotification(requireContext())!!.equals(true)) {
+            binding.settingsSwitchNotify.isChecked = true
         } else {
-            binding.settingsSwitchAlart.isChecked = false
+            binding.settingsSwitchNotify.isChecked = false
         }
 
+//        binding.settingsSwitchAlart.setOnCheckedChangeListener { buttonView, isChecked ->
+//            if (isChecked) {
+//                PrefHelper.setEnableShowDialogAlert(true, requireContext())
+//                binding.settingsSwitchAlart.isChecked = true
+//                setPeriodicWorkRequest()
+//                getPermission()
+//            } else {
+//                PrefHelper.setEnableShowDialogAlert(false, requireContext())
+//                WorkManager.getInstance(requireContext())
+//                    .cancelAllWorkByTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
+//                binding.settingsSwitchAlart.isChecked = false
+//            }
+//        }
 
-        binding.settingsSwitchAlart.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.settingsSwitchNotify.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                PrefHelper.setEnableShowDialogAlert(true, requireContext())
-                binding.settingsSwitchAlart.isChecked = true
-                setPeriodicWorkRequest()
+                PrefHelper.setEnableNotification(true, requireContext())
+                binding.settingsSwitchNotify.isChecked = true
             } else {
-                PrefHelper.setEnableShowDialogAlert(false, requireContext())
+                PrefHelper.setEnableNotification(false, requireContext())
                 WorkManager.getInstance(requireContext())
                     .cancelAllWorkByTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
-                binding.settingsSwitchAlart.isChecked = false
+                binding.settingsSwitchNotify.isChecked = false
             }
         }
 
+//        binding.settingsSwitchLocation.setOnCheckedChangeListener { buttonView, isChecked ->
+//            if (isChecked) {
+//                PrefHelper.setEnableShowDialogAlert(true, requireContext())
+//                binding.settingsSwitchLocation.isChecked = true
+//                setPeriodicWorkRequest()
+//                getPermission()
+//            } else {
+//                PrefHelper.setEnableShowDialogAlert(false, requireContext())
+//                WorkManager.getInstance(requireContext())
+//                    .cancelAllWorkByTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
+//                binding.settingsSwitchLocation.isChecked = false
+//            }
+//        }
 
         binding.layoutGetCustomLocation.setOnClickListener {
             if (isConnected) {
@@ -245,13 +279,50 @@ class SettingsFragment : Fragment() {
                 .addTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
                 .build()
 
-       workManager!!.enqueue(periodicWorkRequest)
+        workManager!!.enqueue(periodicWorkRequest)
         workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observe(viewLifecycleOwner,
             Observer {
-                Log.i("iiiii", "setPeriodicWorkRequest: "+it.state)
+                Log.i("iiiii", "setPeriodicWorkRequest: " + it.state)
             })
 
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == OVER_RELAY_PERMISSION_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this.requireContext())) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Permission denied by the user.",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+        }
+    }
+
+    private fun getPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this.requireContext())) {
+            android.app.AlertDialog.Builder(this.requireContext())
+                .setMessage("Allow weather wizard to display over other apps.")
+                .setPositiveButton("Yes") { dialog, which ->
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION
+                    )
+                    startActivityForResult(
+                        intent,
+                        OVER_RELAY_PERMISSION_CODE
+                    )
+                }
+                .setNegativeButton("No") { dialog, which ->
+                    Toast.makeText(
+                        this.requireContext(),
+                        "The Application must have this permission for the alert functionality.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }.create().show()
+        }
     }
 
 

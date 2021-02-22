@@ -25,6 +25,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <ImageView
+            android:id="@+id/img_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/dialog_senderName"
             android:layout_width="wrap_content"
@@ -32,6 +42,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:visibility="gone"
             android:gravity="center"
             tools:text="NWS Tulsa (Eastern Oklahoma)"
             android:textColor="@color/black"
@@ -65,6 +76,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
+            android:visibility="gone"
             tools:text="From 8PM to 9PM"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -78,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             android:layout_marginEnd="16dp"
             android:gravity="center"
             tools:text="HEAT ADVISORY REMAINS IN EFFECT FROM 1 PM THIS AFTERNOON TO\n8 PM CDT THIS EVENING"

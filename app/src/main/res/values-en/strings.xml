@@ -60,4 +60,11 @@
     <string name="cancel_alarm">Cancel alarm</string>
     <string name="likes">Feels like</string>
     <string name="not_found_location">Not found location</string>
+    <string name="type_alarm">Type Alarm</string>
+    <string name="type">Type</string>
+    <string name="alarm">Alarm</string>
+    <string name="no_sound">No Sound</string>
+    <string name="alarm_sound">Alarm sound</string>
+    <string name="date_time"><![CDATA[Date &Time]]></string>
+    <string name="date_expired">The date is expired</string>
 </resources>

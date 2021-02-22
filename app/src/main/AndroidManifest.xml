@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
         tools:targetApi="m">
-        <activity android:name=".DialogActivity"/>
+        <activity android:name=".DialogActivity" android:theme="@style/Theme.Transparent" android:launchMode="singleTop"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

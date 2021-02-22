@@ -10,6 +10,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -33,15 +34,17 @@ val CHANNEL_ID = "VERBOSE_NOTIFICATION"
 val NOTIFICATION_ID = 1
 
 class NotifyWorker(var context: Context, params: WorkerParameters) : Worker(context, params) {
+    private var type: String? = ""
     var alarmDao: AlarmDao = AppDatabase.getDatabase(applicationContext).getAlarmDaoInstance()
+
 
     override fun doWork(): Result {
         try {
             Log.i("doWork", "doWork: ")
             val time = inputData.getLong("time", 0)
+            type = inputData.getString("type")
 
             getResponseFromApi(time)
-
 
             return Result.success()
         } catch (e: Exception) {
@@ -63,36 +66,36 @@ class NotifyWorker(var context: Context, params: WorkerParameters) : Worker(cont
             withContext(Dispatchers.Main) {
 
                 if (response.isSuccessful) {
-//                    outerLoop@ for (i in response.body()!!.hourly) {
-//                        for (j in response.body()!!.hourly) {
-//                            if (time <= i.dt * 1000 && time >= j.dt * 1000) {
-//                                response.body()!!.current.weather?.get(0)?.description?.let {
-//                                    makeStatusNotification(
-//                                        response.body()!!,
-//                                        response.body()!!.current.temp.toString(),
-//                                        applicationContext
-//                                    )
-//                                    Log.i("0000000", "getCurrentWeather: ${response.body()}")
-//                                }
-//                                break@outerLoop
-//                            }
-//                        }
-//
-//                    }
-                    Log.i("alertsalerts", "getResponseFromApi: " + response.body()?.alerts)
-
-
-
                     if (response.body()?.alerts == null) {
-                        val i = Intent(applicationContext, DialogActivity::class.java)
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        applicationContext.startActivity(i)
+                        if (type.equals("notify")) {
+                            makeStatusNotification(
+                                "There is no an alert",
+                                "Have a nice day",
+                                applicationContext
+                            )
+                        } else {
+                            val i = Intent(applicationContext, DialogActivity::class.java)
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            applicationContext.startActivity(i)
+                        }
                     } else {
                         for (i in response.body()!!.alerts!!) {
                             if (time >= i.start && time <= i.end) {
-                                val i = Intent(applicationContext, DialogActivity::class.java)
-                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                applicationContext.startActivity(i)
+                                if (type.equals("notify")) {
+                                    makeStatusNotification(
+                                        i.event,
+                                        i.description,
+                                        applicationContext
+                                    )
+                                } else {
+                                    val intent =
+                                        Intent(applicationContext, DialogActivity::class.java)
+                                    intent.putExtra("sender_name", i.sender_name)
+                                    intent.putExtra("event", i.event)
+                                    intent.putExtra("description", i.description)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                    applicationContext.startActivity(intent)
+                                }
                             }
                         }
                     }
@@ -106,7 +109,38 @@ class NotifyWorker(var context: Context, params: WorkerParameters) : Worker(cont
     }
 
 
-    fun makeStatusNotification(body: String, title: String, context: Context) {
+//    fun makeStatusNotification(body: String, title: String, context: Context) {
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val name = VERBOSE_NOTIFICATION_CHANNEL_NAME
+//            val description = VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION
+//            val importance = NotificationManager.IMPORTANCE_HIGH
+//            val channel = NotificationChannel(CHANNEL_ID, name, importance)
+//            channel.description = description
+//
+//            // Add the channel
+//            val notificationManager =
+//                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+//
+//            notificationManager?.createNotificationChannel(channel)
+//        }
+//
+//        // Create the notification
+//        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+//            .setContentTitle(body)
+//            .setSmallIcon(R.mipmap.ic_launcher)
+//            .setPriority(NotificationCompat.PRIORITY_HIGH)
+//            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+//
+//        // Show the notification
+//        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build())
+//    }
+
+    fun makeStatusNotification(
+        body: String,
+        title: String,
+        context: Context
+    ) {
 
         // Make a channel if necessary
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -129,55 +163,9 @@ class NotifyWorker(var context: Context, params: WorkerParameters) : Worker(cont
         // Create the notification
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setContentTitle(body)
+            .setContentText(title)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-
-
-        // Show the notification
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build())
-    }
-
-    fun makeStatusNotification(body: ResponseAPIWeather, title: String, context: Context) {
-
-
-        //
-//        val collapsedView = RemoteViews(
-//            applicationContext.getPackageName(),
-//            R.layout.layout_notification
-//        )
-////
-//        collapsedView.setTextViewText(R.id.notify_temp, body.current.temp.toString() + "°")
-//        collapsedView.setTextViewText(R.id.notify_address, body.timezone)
-//        collapsedView.setTextViewText(R.id.notify_desc, body.current.weather!!.get(0).description)
-
-        // Make a channel if necessary
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel, but only on API 26+ because
-            // the NotificationChannel class is new and not in the support library
-            val name = VERBOSE_NOTIFICATION_CHANNEL_NAME
-            val description = VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(CHANNEL_ID, name, importance)
-            channel.description = description
-
-            // Add the channel
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
-
-            notificationManager?.createNotificationChannel(channel)
-        }
-
-
-        // Create the notification
-        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setContentTitle(round(body.current.temp).toString() + "° " + body.timezone)
-            .setContentText(body.current.weather!!.get(0).description)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-//            .setLargeIcon()
-//            .setCustomContentView(collapsedView)
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
 
 
         // Show the notification

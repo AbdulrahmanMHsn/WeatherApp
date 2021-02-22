@@ -12,10 +12,13 @@ import amhsn.weatherapp.utils.worker.AlarmWorker
 import amhsn.weatherapp.viewmodel.WeatherViewModel
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +41,7 @@ import java.util.concurrent.TimeUnit
 
 class Home : Fragment() {
 
+    private var  OVER_RELAY_PERMISSION_CODE: Int = 10001
     private lateinit var mProgress: Dialog
 
     // declaration vars
@@ -334,6 +338,7 @@ class Home : Fragment() {
         val btnNo = dialog.findViewById<Button>(R.id.dialog_btnNo)
 
         btnYes.setOnClickListener {
+            getPermission()
             PrefHelper.setEnableShowDialogAlert(true, requireContext())
             setPeriodicWorkRequest()
             dialog.dismiss()
@@ -351,6 +356,8 @@ class Home : Fragment() {
     }
 
 
+
+
     private fun setPeriodicWorkRequest() {
         val periodicWorkRequest =
             PeriodicWorkRequest.Builder(AlarmWorker::class.java, 1, TimeUnit.HOURS)
@@ -358,4 +365,38 @@ class Home : Fragment() {
                 .build()
         WorkManager.getInstance(requireContext()).enqueue(periodicWorkRequest)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == OVER_RELAY_PERMISSION_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this.requireContext())) {
+                Toast.makeText(this.requireContext(), "Permission denied by the user.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    private fun getPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this.requireContext())) {
+            android.app.AlertDialog.Builder(this.requireContext())
+                .setMessage("Allow weather wizard to display over other apps.")
+                .setPositiveButton("Yes") { dialog, which ->
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION
+                    )
+                    startActivityForResult(
+                        intent,
+                        OVER_RELAY_PERMISSION_CODE
+                    )
+                }
+                .setNegativeButton("No") { dialog, which ->
+                    Toast.makeText(
+                        this.requireContext(),
+                        "The Application must have this permission for the alert functionality.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }.create().show()
+        }
+    }
+
 }

@@ -119,6 +119,7 @@ class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
         val uploadRequest = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
             .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .setInputData(inputTime)
+            .addTag("OneTime_WorkRequest")
             .build()
         idAlarm = uploadRequest.id.toString()
         workManager.enqueue(uploadRequest)

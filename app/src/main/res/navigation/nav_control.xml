@@ -76,5 +76,9 @@
     <fragment
         android:id="@+id/addAlarmFragment"
         android:name="amhsn.weatherapp.ui.ui.alarts.AddAlarmFragment"
-        android:label="@string/add_alarm" />
+        android:label="@string/add_alarm" >
+        <action
+            android:id="@+id/action_addAlarmFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
 </navigation>

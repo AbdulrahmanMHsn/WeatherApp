@@ -138,12 +138,16 @@ class FavouriteDetailsFragment : Fragment() {
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
             val addresses = geocoder.getFromLocation(lat, lon, 5)
 
+            val address  = addresses[0].getAddressLine(0)
+            val splitAddress = address.split(",")
+            val newAddress = splitAddress[0]
+            Log.i("TAGaddress", "getCompleteAddress: "+address)
             val city = addresses[1]!!.locality
             val state: String = addresses[0]!!.getAdminArea()
             val splitState = state.split(" ")
             val newState = splitState[0]
 
-            result = city + ", " + newState
+            result =address
             PrefHelper.setAddress(result, requireContext())
 
             Log.w("getCompleteAddress", result)

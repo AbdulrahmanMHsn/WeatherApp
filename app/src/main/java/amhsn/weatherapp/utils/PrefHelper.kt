@@ -8,6 +8,7 @@ object PrefHelper {
     private lateinit var mSharedPreferences: SharedPreferences
     private const val pref_file = "settings"
 
+
     fun setUnitTemp(unit: String, mContext: Context): Boolean {
         mSharedPreferences =
             mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
@@ -15,6 +16,7 @@ object PrefHelper {
         editor.putString("unit", unit)
         return editor.commit()
     }
+
 
     fun getUnitTemp(mContext: Context): String? {
         mSharedPreferences =
@@ -145,6 +147,21 @@ object PrefHelper {
         mSharedPreferences =
             mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
         return mSharedPreferences.getBoolean("first", false)
+    }
+
+
+    fun setEnableNotification(enable: Boolean, mContext: Context): Boolean {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putBoolean("notify", enable)
+        return editor.commit()
+    }
+
+    fun getEnableNotification(mContext: Context): Boolean? {
+        mSharedPreferences =
+            mContext.applicationContext.getSharedPreferences(pref_file, Context.MODE_PRIVATE)
+        return mSharedPreferences.getBoolean("notify", true)
     }
 
 //    fun setIsFindLocalWeather(enable: Boolean, mContext: Context): Boolean {
