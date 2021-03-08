@@ -9,18 +9,15 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import androidx.work.*
 import com.example.myapplication.network.RetrofitClient
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.lang.Exception
+import java.util.concurrent.TimeUnit
 
 
 class AlarmWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-
+    private lateinit var inputTime: Data
     override fun doWork(): Result {
         try {
             getResponseFromApi()
@@ -36,6 +33,8 @@ class AlarmWorker(context: Context, params: WorkerParameters) : Worker(context, 
 
             val lang: String = PrefHelper.getLocalLanguage(applicationContext).toString()
             val response = RetrofitClient.getApiService(applicationContext).getWeather(
+//                68.3963,
+//                36.9419,
                 PrefHelper.getLatitude(applicationContext)!!.toDouble(),
                 PrefHelper.getLongitude(applicationContext)!!.toDouble(),
                 lang
@@ -47,7 +46,19 @@ class AlarmWorker(context: Context, params: WorkerParameters) : Worker(context, 
                 if (response.isSuccessful) {
                     if (response.body()?.alerts != null) {
                         for (i in response.body()!!.alerts!!) {
-                            if (System.currentTimeMillis() >= i.start && System.currentTimeMillis() <= i.end) {
+//                            Log.i(
+//                                TAG,
+//                                "getResponseFromApi: gggggggggggggggg" + i.start
+//                            )
+                            if (System.currentTimeMillis() >= i.start * 1000 && System.currentTimeMillis() <= i.end * 1000) {
+//                            inputTime = Data.Builder().putString("event", i.event)
+//                                .putString("description", i.description).build()
+
+//                            if (i.start * 1000 >= System.currentTimeMillis()) {
+//                                val delay = (i.start * 1000) - System.currentTimeMillis()
+//                                Log.i(TAG, "getResponseFromApi: delay"+delay)
+//                                setOneTimeWorkRequest(delay)
+//                            }
 //                                val intent = Intent(applicationContext, DialogActivity::class.java)
 //                                intent.putExtra("sender_name",i.sender_name)
 //                                intent.putExtra("event",i.event)
@@ -109,6 +120,19 @@ class AlarmWorker(context: Context, params: WorkerParameters) : Worker(context, 
 
         // Show the notification
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build())
+    }
+
+    /*
+* A function use to call WorkManager
+* */
+    private fun setOneTimeWorkRequest(delay: Long) {
+        val workManager: WorkManager = WorkManager.getInstance(applicationContext)
+        val uploadRequest = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+            .setInputData(inputTime)
+            .addTag("OneTime_WorkRequest")
+            .build()
+        workManager.enqueue(uploadRequest)
     }
 
 }

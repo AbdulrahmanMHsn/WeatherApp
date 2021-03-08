@@ -12,44 +12,33 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="16dp"
+        android:layout_margin="16dp"
         android:background="@drawable/bg_white"
         android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageView
+        <Button
             android:id="@+id/img_close"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_close"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/dialog_senderName"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:visibility="gone"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
-            tools:text="NWS Tulsa (Eastern Oklahoma)"
-            android:textColor="@color/black"
-            android:textSize="18sp"
+            android:src="@drawable/ic_close"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.935"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_desc" />
 
         <TextView
             android:id="@+id/dialog_event"
@@ -57,48 +46,27 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            tools:text="Heat Advisory"
+            android:gravity="start"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_senderName" />
-
-
-
-        <TextView
-            android:id="@+id/dialog_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            android:visibility="gone"
-            tools:text="From 8PM to 9PM"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_event" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Heat Advisory" />
 
         <TextView
             android:id="@+id/dialog_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:visibility="gone"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            tools:text="HEAT ADVISORY REMAINS IN EFFECT FROM 1 PM THIS AFTERNOON TO\n8 PM CDT THIS EVENING"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+            android:maxLines="2"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/img_close"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_time" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_event"
+            tools:text="HEAT ADVISORY REMAINS IN EFFECT FROM 1 PM THIS AFTERNOON TO\n8 PM CDT THIS EVENING" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

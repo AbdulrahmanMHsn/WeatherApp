@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -19,7 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
         tools:targetApi="m">
-        <activity android:name=".ui.ui.SplashActivity"></activity>
+        <activity android:name=".ui.ui.SplashActivity"/>
         <activity
             android:name=".DialogActivity"
             android:launchMode="singleTop"

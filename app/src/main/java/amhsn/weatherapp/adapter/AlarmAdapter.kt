@@ -79,20 +79,20 @@ class AlarmAdapter(var listener: OnItemClickListener) :
             }
         }
 
-        holder.itemBinding.alarmSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-
-            if (isChecked) {
-                if (item.timestamp > System.currentTimeMillis()) {
-                    val delay = item.timestamp - System.currentTimeMillis()
-                    val inputTime = Data.Builder().putLong("time", item.timestamp).build()
-                    setOneTimeWorkRequest(delay, inputTime,buttonView.context)
-                } else {
-                    Toast.makeText(buttonView.context, "The Time is expired", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-
-        }
+//        holder.itemBinding.alarmSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+//
+//            if (isChecked) {
+//                if (item.timestamp > System.currentTimeMillis()) {
+//                    val delay = item.timestamp - System.currentTimeMillis()
+//                    val inputTime = Data.Builder().putLong("time", item.timestamp).build()
+//                    setOneTimeWorkRequest(delay, inputTime,buttonView.context)
+//                } else {
+//                    Toast.makeText(buttonView.context, "The Time is expired", Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+//            }
+//
+//        }
 
         holder.itemBinding.alarmSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             if (position != RecyclerView.NO_POSITION) {

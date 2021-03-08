@@ -40,10 +40,11 @@ class NotifyWorker(var context: Context, params: WorkerParameters) : Worker(cont
 
     override fun doWork(): Result {
         try {
-            Log.i("doWork", "doWork: ")
-            val time = inputData.getLong("time", 0)
-            type = inputData.getString("type")
 
+            val time = inputData.getLong("time", 0)
+
+            type = inputData.getString("type")
+            Log.i("timetype", "doWork: " + type)
             getResponseFromApi(time)
 
             return Result.success()
@@ -59,9 +60,10 @@ class NotifyWorker(var context: Context, params: WorkerParameters) : Worker(cont
             val response = RetrofitClient.getApiService(applicationContext).getWeather(
                 PrefHelper.getLatitude(applicationContext)!!.toDouble(),
                 PrefHelper.getLongitude(applicationContext)!!.toDouble(),
+//                68.3963,
+//                36.9419,
                 lang
-            )
-                .execute()
+            ).execute()
 
             withContext(Dispatchers.Main) {
 
@@ -79,24 +81,49 @@ class NotifyWorker(var context: Context, params: WorkerParameters) : Worker(cont
                             applicationContext.startActivity(i)
                         }
                     } else {
-                        for (i in response.body()!!.alerts!!) {
-                            if (time >= i.start && time <= i.end) {
+                        for (i in response.body()!!.alerts!!.indices) {
+//                            if (i % 2 != 0) {
+                            if (time >= response.body()!!.alerts!![i].start * 1000 && time <= response.body()!!.alerts!![i].end * 1000) {
                                 if (type.equals("notify")) {
                                     makeStatusNotification(
-                                        i.event,
-                                        i.description,
+                                        response.body()!!.alerts!![i].event,
+                                        response.body()!!.alerts!![i].description,
                                         applicationContext
                                     )
                                 } else {
                                     val intent =
                                         Intent(applicationContext, DialogActivity::class.java)
-                                    intent.putExtra("sender_name", i.sender_name)
-                                    intent.putExtra("event", i.event)
-                                    intent.putExtra("description", i.description)
+                                    intent.putExtra(
+                                        "sender_name",
+                                        response.body()!!.alerts!![i].sender_name
+                                    )
+                                    intent.putExtra(
+                                        "event",
+                                        response.body()!!.alerts!![i].event
+                                    )
+                                    intent.putExtra(
+                                        "description",
+                                        response.body()!!.alerts!![i].description
+                                    )
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                     applicationContext.startActivity(intent)
                                 }
+                                break
                             }
+//                            }
+//                            else{
+//                                if (type.equals("notify")) {
+//                                    makeStatusNotification(
+//                                        "There is no an alert",
+//                                        "Have a nice day",
+//                                        applicationContext
+//                                    )
+//                                } else {
+//                                    val i = Intent(applicationContext, DialogActivity::class.java)
+//                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                                    applicationContext.startActivity(i)
+//                                }
+//                            }
                         }
                     }
 
@@ -169,7 +196,7 @@ class NotifyWorker(var context: Context, params: WorkerParameters) : Worker(cont
 
 
         // Show the notification
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build())
+        NotificationManagerCompat.from(context).notify(1, builder.build())
     }
 
     fun deleteAlarm(id: Long) {

@@ -65,14 +65,14 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.MovieHolder>() {
                 .into(it)
         }
 
-        if (currentCalendar.timeInMillis >= (item.dt).toLong() * 1000) {
-            holder.binding.hourlyTxtVwTime.text = "Now"
-        } else {
+//        if (currentCalendar.timeInMillis >= (item.dt).toLong() * 1000) {
+//            holder.binding.hourlyTxtVwTime.text = "Now"
+//        } else {
 
             val date = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date((item.dt).toLong() * 1000))
 
             holder.binding.hourlyTxtVwTime.text = date
-        }
+//        }
 
         holder.binding.hourlyTxtVwTemp.text = Math.round(item.temp).toInt().toString() + "\u00b0"
         holder.binding.hourlyTxtVwDesc.text = item.weather.get(0).description

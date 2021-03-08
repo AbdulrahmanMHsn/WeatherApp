@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
@@ -249,9 +251,14 @@ class SettingsFragment : Fragment() {
     private fun setPeriodicWorkRequest() {
         val workManager: WorkManager? = this.context?.let { WorkManager.getInstance(it) }
 
+        val constraints: Constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
         val periodicWorkRequest =
-            PeriodicWorkRequest.Builder(AlarmWorker::class.java, 1, TimeUnit.HOURS)
+            PeriodicWorkRequest.Builder(AlarmWorker::class.java, 15, TimeUnit.MINUTES)
                 .addTag("AlarmWorkerMANAGER_PeriodicWorkRequest")
+                .setConstraints(constraints)
                 .build()
 
         workManager!!.enqueue(periodicWorkRequest)

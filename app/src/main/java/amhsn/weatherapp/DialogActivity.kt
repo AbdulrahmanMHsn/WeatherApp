@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -44,10 +45,9 @@ class DialogActivity : AppCompatActivity() {
         r.play()
         val dialog = Dialog(this, R.style.Theme_Dialog)
         dialog.setContentView(R.layout.dialog_custom_alarm)
-        val txtSender = dialog.findViewById<TextView>(R.id.dialog_senderName)
         val txtEvent = dialog.findViewById<TextView>(R.id.dialog_event)
         val txtDesc = dialog.findViewById<TextView>(R.id.dialog_desc)
-        val imgClose = dialog.findViewById<ImageView>(R.id.img_close)
+        val imgClose = dialog.findViewById<Button>(R.id.img_close)
 
         imgClose.setOnClickListener {
             if (r.isPlaying) {
@@ -58,17 +58,11 @@ class DialogActivity : AppCompatActivity() {
         }
 
         if (isEmpty) {
-            txtSender.visibility = View.VISIBLE
-            txtEvent.visibility = View.VISIBLE
-            txtDesc.visibility = View.VISIBLE
-            txtSender.text = senderName
             txtEvent.text = event
             txtDesc.text = desc
         } else {
-            txtSender.visibility = View.GONE
-            txtEvent.visibility = View.VISIBLE
-            txtDesc.visibility = View.GONE
-            txtEvent.text = "Fine day"
+            txtEvent.text = "There is no an alert"
+            txtDesc.text = "Have a nice day"
         }
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

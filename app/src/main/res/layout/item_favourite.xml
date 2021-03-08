@@ -37,37 +37,45 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/itemFav_txtVw_city"
-                android:layout_width="246dp"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="266dp"
+                android:layout_height="59dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:minLines="1"
-                android:singleLine="true"
-                android:text="@string/language"
-                android:textColor="@color/black"
-                android:textSize="18sp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/imageDelete"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/itemFav_txtVw_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="18dp"
-                android:text="@string/language"
-                android:textColor="#686565"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/itemFav_txtVw_city" />
+                <TextView
+                    android:id="@+id/itemFav_txtVw_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:singleLine="true"
+                    android:text="@string/language"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/itemFav_txtVw_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/language"
+                    android:textColor="#686565"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/itemFav_txtVw_city" />
 
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

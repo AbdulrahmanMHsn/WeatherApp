@@ -12,14 +12,13 @@ import amhsn.weatherapp.pojo.CustomAlarm
 import amhsn.weatherapp.utils.worker.NotifyWorker
 import amhsn.weatherapp.viewmodel.AlarmViewModel
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -30,6 +29,7 @@ class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
     private lateinit var adapter: AlarmAdapter
     private lateinit var binding: FragmentAlarmsBinding
     private lateinit var viewModel: AlarmViewModel
+    private lateinit var mView: View
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,13 +44,13 @@ class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alarms, container, false)
+        mView = container!!.rootView
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initRecyclerView()
 
         viewModel.getAlarmLocalDataSource().observe(viewLifecycleOwner, Observer {
@@ -115,15 +115,20 @@ class AlarmsFragment : Fragment(), AlarmAdapter.OnItemClickListener {
      * A function use to call WorkManager
      * */
     private fun setOneTimeWorkRequest(delay: Long, inputTime: Data) {
+        val constraints: Constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
         val workManager: WorkManager = WorkManager.getInstance(requireContext())
         val uploadRequest = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
             .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .setInputData(inputTime)
+            .setConstraints(constraints)
             .addTag("OneTime_WorkRequest")
             .build()
         idAlarm = uploadRequest.id.toString()
         workManager.enqueue(uploadRequest)
     }
+
 
 
 }
